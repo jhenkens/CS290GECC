@@ -10,7 +10,53 @@
 		D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDBFF173EDC55002E1EC6 /* Cocoa.framework */; };
 		D4ACDC0A173EDC55002E1EC6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4ACDC08173EDC55002E1EC6 /* InfoPlist.strings */; };
 		D4ACDC0E173EDC55002E1EC6 /* CS290GECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC0D173EDC55002E1EC6 /* CS290GECC.m */; };
+		D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */; };
+		D4ACDC3E173EE462002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
+		D4ACDC41173EE476002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D4ACDC18173EDEC8002E1EC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9069D28C0FCE659A0042E34C;
+			remoteInfo = crypto;
+		};
+		D4ACDC39173EE455002E1EC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9069D28B0FCE659A0042E34C;
+			remoteInfo = crypto;
+		};
+		D4ACDC3C173EE455002E1EC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D4ACDC38173EE3FC002E1EC6;
+			remoteInfo = crypto_ios;
+		};
+		D4ACDC3F173EE46D002E1EC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D4ACDC33173EE3FC002E1EC6;
+			remoteInfo = crypto_ios;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D4ACDC1F173EE0A8002E1EC6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D4ACDBFC173EDC55002E1EC6 /* CS290GECC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CS290GECC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -23,6 +69,10 @@
 		D4ACDC0B173EDC55002E1EC6 /* CS290GECC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CS290GECC-Prefix.pch"; sourceTree = "<group>"; };
 		D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CS290GECC.h; sourceTree = "<group>"; };
 		D4ACDC0D173EDC55002E1EC6 /* CS290GECC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CS290GECC.m; sourceTree = "<group>"; };
+		D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openssl.xcodeproj; path = Library/openssl/openssl.xcodeproj; sourceTree = "<group>"; };
+		D4ACDC21173EE0A8002E1EC6 /* libCS290GECC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCS290GECC.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D4ACDC31173EE23E002E1EC6 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,7 +80,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4ACDC3E173EE462002E1EC6 /* libcrypto.a in Frameworks */,
 				D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4ACDC1E173EE0A8002E1EC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4ACDC41173EE476002E1EC6 /* libcrypto.a in Frameworks */,
+				D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +100,8 @@
 		D4ACDBF2173EDC55002E1EC6 = {
 			isa = PBXGroup;
 			children = (
+				D4ACDC31173EE23E002E1EC6 /* libcrypto.dylib */,
+				D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */,
 				D4ACDC05173EDC55002E1EC6 /* CS290GECC */,
 				D4ACDBFE173EDC55002E1EC6 /* Frameworks */,
 				D4ACDBFD173EDC55002E1EC6 /* Products */,
@@ -50,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				D4ACDBFC173EDC55002E1EC6 /* CS290GECC.framework */,
+				D4ACDC21173EE0A8002E1EC6 /* libCS290GECC.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				D4ACDBFF173EDC55002E1EC6 /* Cocoa.framework */,
+				D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */,
 				D4ACDC01173EDC55002E1EC6 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -93,6 +157,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D4ACDC15173EDEC8002E1EC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */,
+				D4ACDC3D173EE455002E1EC6 /* libcrypto.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -106,9 +179,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D4ACDBFB173EDC55002E1EC6 /* CS290GECC */ = {
+		D4ACDBFB173EDC55002E1EC6 /* CS290GECC.framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4ACDC11173EDC55002E1EC6 /* Build configuration list for PBXNativeTarget "CS290GECC" */;
+			buildConfigurationList = D4ACDC11173EDC55002E1EC6 /* Build configuration list for PBXNativeTarget "CS290GECC.framework" */;
 			buildPhases = (
 				D4ACDBF7173EDC55002E1EC6 /* Sources */,
 				D4ACDBF8173EDC55002E1EC6 /* Frameworks */,
@@ -118,11 +191,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				D4ACDC3A173EE455002E1EC6 /* PBXTargetDependency */,
 			);
-			name = CS290GECC;
+			name = CS290GECC.framework;
 			productName = CS290GECC;
 			productReference = D4ACDBFC173EDC55002E1EC6 /* CS290GECC.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		D4ACDC20173EE0A8002E1EC6 /* libCS290GECC.a */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4ACDC2B173EE0A8002E1EC6 /* Build configuration list for PBXNativeTarget "libCS290GECC.a" */;
+			buildPhases = (
+				D4ACDC1D173EE0A8002E1EC6 /* Sources */,
+				D4ACDC1E173EE0A8002E1EC6 /* Frameworks */,
+				D4ACDC1F173EE0A8002E1EC6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D4ACDC40173EE46D002E1EC6 /* PBXTargetDependency */,
+			);
+			name = libCS290GECC.a;
+			productName = CS290GECC;
+			productReference = D4ACDC21173EE0A8002E1EC6 /* libCS290GECC.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -143,12 +235,36 @@
 			mainGroup = D4ACDBF2173EDC55002E1EC6;
 			productRefGroup = D4ACDBFD173EDC55002E1EC6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D4ACDC15173EDEC8002E1EC6 /* Products */;
+					ProjectRef = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				D4ACDBFB173EDC55002E1EC6 /* CS290GECC */,
+				D4ACDBFB173EDC55002E1EC6 /* CS290GECC.framework */,
+				D4ACDC20173EE0A8002E1EC6 /* libCS290GECC.a */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcrypto.a;
+			remoteRef = D4ACDC18173EDEC8002E1EC6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4ACDC3D173EE455002E1EC6 /* libcrypto.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcrypto.a;
+			remoteRef = D4ACDC3C173EE455002E1EC6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D4ACDBFA173EDC55002E1EC6 /* Resources */ = {
@@ -170,7 +286,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4ACDC1D173EE0A8002E1EC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D4ACDC3A173EE455002E1EC6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = crypto;
+			targetProxy = D4ACDC39173EE455002E1EC6 /* PBXContainerItemProxy */;
+		};
+		D4ACDC40173EE46D002E1EC6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = crypto_ios;
+			targetProxy = D4ACDC3F173EE46D002E1EC6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D4ACDC08173EDC55002E1EC6 /* InfoPlist.strings */ = {
@@ -252,8 +388,9 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Library/openssl/openssl/include";
 				INFOPLIST_FILE = "CS290GECC/CS290GECC-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = CS290GECC;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -267,9 +404,41 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Library/openssl/openssl/include";
 				INFOPLIST_FILE = "CS290GECC/CS290GECC-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = CS290GECC;
 				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		D4ACDC2C173EE0A8002E1EC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CS290GECC.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Library/openssl/openssl/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = CS290GECC;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D4ACDC2D173EE0A8002E1EC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CS290GECC.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Library/openssl/openssl/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = CS290GECC;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -285,11 +454,19 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4ACDC11173EDC55002E1EC6 /* Build configuration list for PBXNativeTarget "CS290GECC" */ = {
+		D4ACDC11173EDC55002E1EC6 /* Build configuration list for PBXNativeTarget "CS290GECC.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4ACDC12173EDC55002E1EC6 /* Debug */,
 				D4ACDC13173EDC55002E1EC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D4ACDC2B173EE0A8002E1EC6 /* Build configuration list for PBXNativeTarget "libCS290GECC.a" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4ACDC2C173EE0A8002E1EC6 /* Debug */,
+				D4ACDC2D173EE0A8002E1EC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

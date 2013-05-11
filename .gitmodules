@@ -1,0 +1,3 @@
+[submodule "Library/openssl"]
+	path = Library/openssl
+	url = git@github.com:jhenkens/openssl-xcode.git

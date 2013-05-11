@@ -12,11 +12,12 @@
 		D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */; };
 		D4ACDC47173EEADA002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
 		D4ACDC49173EEC37002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
-		D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
+		D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
 		D4ACF580173EF58B002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
 		D4ACF583173EF599002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
 		D4ACF586173EF64B002E1EC6 /* CSLog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC44173EEADA002E1EC6 /* CSLog.h */; };
+		D4ACF5AE173EF9FB002E1EC6 /* CSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC44173EEADA002E1EC6 /* CSLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */,
+				D4ACF5AE173EF9FB002E1EC6 /* CSLog.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

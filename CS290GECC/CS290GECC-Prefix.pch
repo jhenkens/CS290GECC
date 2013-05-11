@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'CS290GECC' target in the 'CS290GECC' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

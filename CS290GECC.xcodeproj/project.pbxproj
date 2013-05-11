@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDBFF173EDC55002E1EC6 /* Cocoa.framework */; };
 		D4ACDC0A173EDC55002E1EC6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4ACDC08173EDC55002E1EC6 /* InfoPlist.strings */; };
-		D4ACDC0E173EDC55002E1EC6 /* CS290GECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC0D173EDC55002E1EC6 /* CS290GECC.m */; };
 		D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */; };
-		D4ACDC3E173EE462002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
-		D4ACDC41173EE476002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
+		D4ACDC47173EEADA002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
+		D4ACDC49173EEC37002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
+		D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
+		D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
+		D4ACF580173EF58B002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
+		D4ACF583173EF599002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
+		D4ACF586173EF64B002E1EC6 /* CSLog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC44173EEADA002E1EC6 /* CSLog.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,13 +27,6 @@
 			remoteGlobalIDString = 9069D28C0FCE659A0042E34C;
 			remoteInfo = crypto;
 		};
-		D4ACDC39173EE455002E1EC6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9069D28B0FCE659A0042E34C;
-			remoteInfo = crypto;
-		};
 		D4ACDC3C173EE455002E1EC6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
@@ -37,11 +34,18 @@
 			remoteGlobalIDString = D4ACDC38173EE3FC002E1EC6;
 			remoteInfo = crypto_ios;
 		};
-		D4ACDC3F173EE46D002E1EC6 /* PBXContainerItemProxy */ = {
+		D4ACF57E173EF584002E1EC6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = D4ACDC33173EE3FC002E1EC6;
+			remoteInfo = crypto_osx;
+		};
+		D4ACF581173EF595002E1EC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9069D28B0FCE659A0042E34C;
 			remoteInfo = crypto_ios;
 		};
 /* End PBXContainerItemProxy section */
@@ -49,10 +53,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		D4ACDC1F173EE0A8002E1EC6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				D4ACF586173EF64B002E1EC6 /* CSLog.h in CopyFiles */,
+				D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,11 +74,11 @@
 		D4ACDC09173EDC55002E1EC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4ACDC0B173EDC55002E1EC6 /* CS290GECC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CS290GECC-Prefix.pch"; sourceTree = "<group>"; };
 		D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CS290GECC.h; sourceTree = "<group>"; };
-		D4ACDC0D173EDC55002E1EC6 /* CS290GECC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CS290GECC.m; sourceTree = "<group>"; };
 		D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openssl.xcodeproj; path = Library/openssl/openssl.xcodeproj; sourceTree = "<group>"; };
 		D4ACDC21173EE0A8002E1EC6 /* libCS290GECC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCS290GECC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D4ACDC31173EE23E002E1EC6 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		D4ACDC44173EEADA002E1EC6 /* CSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLog.h; sourceTree = "<group>"; };
+		D4ACDC45173EEADA002E1EC6 /* CSLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSLog.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4ACDC3E173EE462002E1EC6 /* libcrypto.a in Frameworks */,
+				D4ACF580173EF58B002E1EC6 /* libcrypto.a in Frameworks */,
 				D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4ACDC41173EE476002E1EC6 /* libcrypto.a in Frameworks */,
+				D4ACF583173EF599002E1EC6 /* libcrypto.a in Frameworks */,
 				D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,7 +106,6 @@
 		D4ACDBF2173EDC55002E1EC6 = {
 			isa = PBXGroup;
 			children = (
-				D4ACDC31173EE23E002E1EC6 /* libcrypto.dylib */,
 				D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */,
 				D4ACDC05173EDC55002E1EC6 /* CS290GECC */,
 				D4ACDBFE173EDC55002E1EC6 /* Frameworks */,
@@ -141,8 +146,9 @@
 			isa = PBXGroup;
 			children = (
 				D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */,
-				D4ACDC0D173EDC55002E1EC6 /* CS290GECC.m */,
 				D4ACDC06173EDC55002E1EC6 /* Supporting Files */,
+				D4ACDC44173EEADA002E1EC6 /* CSLog.h */,
+				D4ACDC45173EEADA002E1EC6 /* CSLog.m */,
 			);
 			path = CS290GECC;
 			sourceTree = "<group>";
@@ -173,6 +179,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +198,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D4ACDC3A173EE455002E1EC6 /* PBXTargetDependency */,
+				D4ACF57F173EF584002E1EC6 /* PBXTargetDependency */,
 			);
 			name = CS290GECC.framework;
 			productName = CS290GECC;
@@ -209,7 +216,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D4ACDC40173EE46D002E1EC6 /* PBXTargetDependency */,
+				D4ACF582173EF595002E1EC6 /* PBXTargetDependency */,
 			);
 			name = libCS290GECC.a;
 			productName = CS290GECC;
@@ -282,7 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4ACDC0E173EDC55002E1EC6 /* CS290GECC.m in Sources */,
+				D4ACDC47173EEADA002E1EC6 /* CSLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,21 +297,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4ACDC49173EEC37002E1EC6 /* CSLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D4ACDC3A173EE455002E1EC6 /* PBXTargetDependency */ = {
+		D4ACF57F173EF584002E1EC6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = crypto;
-			targetProxy = D4ACDC39173EE455002E1EC6 /* PBXContainerItemProxy */;
+			name = crypto_osx;
+			targetProxy = D4ACF57E173EF584002E1EC6 /* PBXContainerItemProxy */;
 		};
-		D4ACDC40173EE46D002E1EC6 /* PBXTargetDependency */ = {
+		D4ACF582173EF595002E1EC6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = crypto_ios;
-			targetProxy = D4ACDC3F173EE46D002E1EC6 /* PBXContainerItemProxy */;
+			targetProxy = D4ACF581173EF595002E1EC6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -347,6 +355,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -374,6 +383,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
@@ -414,6 +424,7 @@
 		D4ACDC2C173EE0A8002E1EC6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/CS290GECC.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
@@ -421,6 +432,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = CS290GECC;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
@@ -429,6 +441,7 @@
 		D4ACDC2D173EE0A8002E1EC6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/CS290GECC.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS290GECC/CS290GECC-Prefix.pch";
@@ -436,6 +449,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = CS290GECC;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
@@ -461,6 +475,7 @@
 				D4ACDC13173EDC55002E1EC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4ACDC2B173EE0A8002E1EC6 /* Build configuration list for PBXNativeTarget "libCS290GECC.a" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +484,7 @@
 				D4ACDC2D173EE0A8002E1EC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

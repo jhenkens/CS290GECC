@@ -1,13 +1,15 @@
 //
-//  CS290GECC.m
+//  CSLog.h
 //  CS290GECC
 //
 //  Created by Johan Henkens on 5/11/13.
 //  Copyright (c) 2013 Johan Henkens. All rights reserved.
 //
 
-#import "CS290GECC.h"
+#import <Foundation/Foundation.h>
 
-@implementation CS290GECC
+@interface CSLog : NSObject
+
++(void)log;
 
 @end

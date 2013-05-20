@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CSLog.h"
 #import "ECC.h"
 
 @interface CS290GECC : NSObject

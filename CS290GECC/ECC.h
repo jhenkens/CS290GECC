@@ -34,11 +34,9 @@
  */
 
 @interface ECC : NSObject{
-    PrimeCurve *__primeCurve;
 }
 + (void) testMain;
 
-@property (nonatomic, retain) PrimeCurve* primeCurve;
 //- ;
 //- phot
 //

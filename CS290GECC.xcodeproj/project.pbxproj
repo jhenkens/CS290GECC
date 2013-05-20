@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D405579A1749E93500DE9439 /* BigPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D405579B1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
+		D405579C1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
+		D405579D1749E93D00DE9439 /* BigPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; };
 		D471A5861741E1D1005EDA86 /* ECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D471A5841741E1D1005EDA86 /* ECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D471A5871741E1D1005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
 		D471A5881741E1EA005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
@@ -18,14 +22,10 @@
 		D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDBFF173EDC55002E1EC6 /* Cocoa.framework */; };
 		D4ACDC0A173EDC55002E1EC6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4ACDC08173EDC55002E1EC6 /* InfoPlist.strings */; };
 		D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */; };
-		D4ACDC47173EEADA002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
-		D4ACDC49173EEC37002E1EC6 /* CSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ACDC45173EEADA002E1EC6 /* CSLog.m */; };
 		D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
 		D4ACF580173EF58B002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
 		D4ACF583173EF599002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
-		D4ACF586173EF64B002E1EC6 /* CSLog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC44173EEADA002E1EC6 /* CSLog.h */; };
-		D4ACF5AE173EF9FB002E1EC6 /* CSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC44173EEADA002E1EC6 /* CSLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,9 +66,9 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				D405579D1749E93D00DE9439 /* BigPoint.h in CopyFiles */,
 				D471A5901741FCF3005EDA86 /* PrimeCurve.h in CopyFiles */,
 				D471A5891741E1FA005EDA86 /* ECC.h in CopyFiles */,
-				D4ACF586173EF64B002E1EC6 /* CSLog.h in CopyFiles */,
 				D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,6 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D40557981749E93500DE9439 /* BigPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPoint.h; sourceTree = "<group>"; };
+		D40557991749E93500DE9439 /* BigPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigPoint.m; sourceTree = "<group>"; };
 		D471A5841741E1D1005EDA86 /* ECC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECC.h; sourceTree = "<group>"; };
 		D471A5851741E1D1005EDA86 /* ECC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECC.m; sourceTree = "<group>"; };
 		D471A58A1741EE15005EDA86 /* PrimeCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeCurve.h; sourceTree = "<group>"; };
@@ -92,8 +94,6 @@
 		D4ACDC14173EDEC8002E1EC6 /* openssl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openssl.xcodeproj; path = Library/openssl/openssl.xcodeproj; sourceTree = "<group>"; };
 		D4ACDC21173EE0A8002E1EC6 /* libCS290GECC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCS290GECC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D4ACDC44173EEADA002E1EC6 /* CSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLog.h; sourceTree = "<group>"; };
-		D4ACDC45173EEADA002E1EC6 /* CSLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSLog.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,12 +162,12 @@
 			children = (
 				D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */,
 				D4ACDC06173EDC55002E1EC6 /* Supporting Files */,
-				D4ACDC44173EEADA002E1EC6 /* CSLog.h */,
-				D4ACDC45173EEADA002E1EC6 /* CSLog.m */,
 				D471A5841741E1D1005EDA86 /* ECC.h */,
 				D471A5851741E1D1005EDA86 /* ECC.m */,
 				D471A58A1741EE15005EDA86 /* PrimeCurve.h */,
 				D471A58B1741EE15005EDA86 /* PrimeCurve.m */,
+				D40557981749E93500DE9439 /* BigPoint.h */,
+				D40557991749E93500DE9439 /* BigPoint.m */,
 			);
 			path = CS290GECC;
 			sourceTree = "<group>";
@@ -200,7 +200,7 @@
 			files = (
 				D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */,
 				D471A58C1741EE15005EDA86 /* PrimeCurve.h in Headers */,
-				D4ACF5AE173EF9FB002E1EC6 /* CSLog.h in Headers */,
+				D405579A1749E93500DE9439 /* BigPoint.h in Headers */,
 				D471A5861741E1D1005EDA86 /* ECC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,9 +311,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4ACDC47173EEADA002E1EC6 /* CSLog.m in Sources */,
 				D471A5871741E1D1005EDA86 /* ECC.m in Sources */,
 				D471A58D1741EE15005EDA86 /* PrimeCurve.m in Sources */,
+				D405579B1749E93500DE9439 /* BigPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,9 +321,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4ACDC49173EEC37002E1EC6 /* CSLog.m in Sources */,
 				D471A5881741E1EA005EDA86 /* ECC.m in Sources */,
 				D4A0C36F1742A74B00E279E3 /* PrimeCurve.m in Sources */,
+				D405579C1749E93500DE9439 /* BigPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

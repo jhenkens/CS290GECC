@@ -192,17 +192,47 @@
 - (void) multGByD:(BIGNUM*)d result:(BigPoint *)r{
     BN_CTX* context = BN_CTX_new();
     BN_CTX_start(context);
-
-    [r copyPoint:[self g]];
+    
+    BigPoint* temp = [[BigPoint alloc] initFromBigNumX:BN_CTX_get(context) y:BN_CTX_get(context)];
+    [temp copyPoint:[self g]];
     
     int len = BN_num_bits(d);
     assert(len!=0);
+
+    BOOL notFirst = NO;
     
-    for (int i = len-2; i>=0; i--){
-        [self addPoints:r point2:r result:r context:context];
-        if(BN_is_bit_set(d, i)){
-            [self addPoints:r point2:[self g] result:r context:context];
+    BOOL ci = NO;
+    BOOL currBit = BN_is_bit_set(d, 0);
+    BOOL nextBit;
+    
+    
+    for (int i = 0; i<len+1; i++){
+        nextBit = BN_is_bit_set(d, i+1);
+        if(currBit ^ ci){
+
+            if(nextBit){
+                BN_set_negative([temp y], 1);
+                //Subtract current
+            }
+            if(notFirst){
+                [self addPoints:temp point2:r result:r context:context];
+            } else{
+                [r copyPoint:temp];
+                notFirst = YES;
+            }
+            if(nextBit){
+                BN_set_negative([temp y], 0);
+                //Subtract current
+            }
         }
+        if((ci + currBit + nextBit) >= 2){
+            ci = YES;
+        } else{
+            ci = NO;
+        }
+        currBit = nextBit;
+        [self addPoints:temp point2:temp result:temp context:context];
+
     }
 }
 

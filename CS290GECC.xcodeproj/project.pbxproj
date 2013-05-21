@@ -11,6 +11,10 @@
 		D405579B1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
 		D405579C1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
 		D405579D1749E93D00DE9439 /* BigPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; };
+		D45C831A174AF0FB00BA0141 /* BigJacobPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D45C831B174AF0FB00BA0141 /* BigJacobPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */; };
+		D45C831C174AF0FB00BA0141 /* BigJacobPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */; };
+		D45C831D174AF12B00BA0141 /* BigJacobPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */; };
 		D471A5861741E1D1005EDA86 /* ECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D471A5841741E1D1005EDA86 /* ECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D471A5871741E1D1005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
 		D471A5881741E1EA005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
@@ -66,6 +70,7 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				D45C831D174AF12B00BA0141 /* BigJacobPoint.h in CopyFiles */,
 				D405579D1749E93D00DE9439 /* BigPoint.h in CopyFiles */,
 				D471A5901741FCF3005EDA86 /* PrimeCurve.h in CopyFiles */,
 				D471A5891741E1FA005EDA86 /* ECC.h in CopyFiles */,
@@ -78,6 +83,8 @@
 /* Begin PBXFileReference section */
 		D40557981749E93500DE9439 /* BigPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPoint.h; sourceTree = "<group>"; };
 		D40557991749E93500DE9439 /* BigPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigPoint.m; sourceTree = "<group>"; };
+		D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigJacobPoint.h; sourceTree = "<group>"; };
+		D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigJacobPoint.m; sourceTree = "<group>"; };
 		D471A5841741E1D1005EDA86 /* ECC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECC.h; sourceTree = "<group>"; };
 		D471A5851741E1D1005EDA86 /* ECC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECC.m; sourceTree = "<group>"; };
 		D471A58A1741EE15005EDA86 /* PrimeCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimeCurve.h; sourceTree = "<group>"; };
@@ -168,6 +175,8 @@
 				D471A58B1741EE15005EDA86 /* PrimeCurve.m */,
 				D40557981749E93500DE9439 /* BigPoint.h */,
 				D40557991749E93500DE9439 /* BigPoint.m */,
+				D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */,
+				D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */,
 			);
 			path = CS290GECC;
 			sourceTree = "<group>";
@@ -202,6 +211,7 @@
 				D471A58C1741EE15005EDA86 /* PrimeCurve.h in Headers */,
 				D405579A1749E93500DE9439 /* BigPoint.h in Headers */,
 				D471A5861741E1D1005EDA86 /* ECC.h in Headers */,
+				D45C831A174AF0FB00BA0141 /* BigJacobPoint.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +324,7 @@
 				D471A5871741E1D1005EDA86 /* ECC.m in Sources */,
 				D471A58D1741EE15005EDA86 /* PrimeCurve.m in Sources */,
 				D405579B1749E93500DE9439 /* BigPoint.m in Sources */,
+				D45C831B174AF0FB00BA0141 /* BigJacobPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +335,7 @@
 				D471A5881741E1EA005EDA86 /* ECC.m in Sources */,
 				D4A0C36F1742A74B00E279E3 /* PrimeCurve.m in Sources */,
 				D405579C1749E93500DE9439 /* BigPoint.m in Sources */,
+				D45C831C174AF0FB00BA0141 /* BigJacobPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

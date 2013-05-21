@@ -8,6 +8,7 @@
 
 #import "ECC.h"
 #import "BigPoint.h"
+#import "BigJacobPoint.h"
 
 @implementation ECC
 
@@ -38,44 +39,67 @@
     return result;
 }
 
-+(void)testMain{
-    PrimeCurve* prime = [ECC getD121Curve];
-    BigPoint* p1 = [[BigPoint alloc] init];
-    BigPoint* p2 = [[BigPoint alloc] init];
-    BigPoint* r = [[BigPoint alloc] init];
-    BigPoint* r2 = [[BigPoint alloc] init];
-    BIGNUM* temp = BN_new();
-    
-    BN_dec2bn(&temp, "2154360660537946610207436656056507518107437989975993284250");
-    BN_copy([p1 x],temp);
-    BN_dec2bn(&temp, "2602884946809268339044418193606682176060144637205295389227");
-    BN_copy([p1 y],temp);
-    BN_dec2bn(&temp, "2835104286271553758739026755942804066882570039948637940091");
-    BN_copy([p2 x],temp);
-    BN_dec2bn(&temp, "1254825656320893673375849154742964262411653302661321552964");
-    BN_copy([p2 y],temp);
-    [prime addPoints:p1 point2:p2 result:r];
-//    NSLog(@"%@\n",r);
-    BN_set_negative([p1 y],1);
-    [prime addPoints:r point2:p1 result:r2];
-//    NSLog(@"%@ \n %@",r2, p2);
-    
-    PrimeCurve* test2 = [[PrimeCurve alloc] initWithDecStringP:@"23" n:@"2" SEED:@"3" c:@"4" b:@"1" a:@"1" Gx:@"1" Gy:@"1"];
-    BN_set_word([p1 x], 3);
-    BN_set_word([p1 y],10);
-    BN_set_word([p2 x],3);
-    BN_set_word([p2 y],10);
-    BN_set_word(temp,4);
-    BN_clear_bit(temp, 2);
-//    printf("#######%s\n",BN_bn2dec(temp));
-//    [test2 addPoints:p1 point2:p2 result:r];
 
++(void)testMain
+{
+    PrimeCurve* prime = [ECC getD121Curve];
+    BigJacobPoint* jp1 = [[BigJacobPoint alloc] init];
+    BigPoint* p1 = [[BigPoint alloc] init];
+    BIGNUM* temp = BN_new();
+
+    // (27,91) -> Jacob (3,3,3) : (27/(3^3) , 91/(3^3), 3)
+//    BN_set_word([jp1 x],3);
+//    BN_set_word([jp1 y],3);
+    BN_dec2bn(&temp, "4707826301540010572876842067405749812062931525292743720960");
+    BN_copy([jp1 x],temp);
+    BN_dec2bn(&temp, "2353913150770005286438421033702874906031465762646371860480");
+    BN_copy([jp1 y],temp);
+    BN_set_word([jp1 z],1);
+    [jp1 toPoint:p1 modulo:[prime p]];
+    NSLog(@"%@",jp1);
+    NSLog(@"%@",p1);
     
-    BN_set_word(temp,50901976);
-    [prime multGByD:temp result:r];
-    NSLog(@"%@",r);
-    
-    BN_free(temp);
 }
+
+//+(void)testMain
+//{
+//    PrimeCurve* prime = [ECC getD121Curve];
+//    BigPoint* p1 = [[BigPoint alloc] init];
+//    BigPoint* p2 = [[BigPoint alloc] init];
+//    BigPoint* r = [[BigPoint alloc] init];
+//    BigPoint* r2 = [[BigPoint alloc] init];
+//    BIGNUM* temp = BN_new();
+//    
+//    BN_dec2bn(&temp, "2154360660537946610207436656056507518107437989975993284250");
+//    BN_copy([p1 x],temp);
+//    BN_dec2bn(&temp, "2602884946809268339044418193606682176060144637205295389227");
+//    BN_copy([p1 y],temp);
+//    BN_dec2bn(&temp, "2835104286271553758739026755942804066882570039948637940091");
+//    BN_copy([p2 x],temp);
+//    BN_dec2bn(&temp, "1254825656320893673375849154742964262411653302661321552964");
+//    BN_copy([p2 y],temp);
+//    [prime addPoints:p1 point2:p2 result:r];
+////    NSLog(@"%@\n",r);
+//    BN_set_negative([p1 y],1);
+//    [prime addPoints:r point2:p1 result:r2];
+////    NSLog(@"%@ \n %@",r2, p2);
+//    
+//    PrimeCurve* test2 = [[PrimeCurve alloc] initWithDecStringP:@"23" n:@"2" SEED:@"3" c:@"4" b:@"1" a:@"1" Gx:@"1" Gy:@"1"];
+//    BN_set_word([p1 x], 3);
+//    BN_set_word([p1 y],10);
+//    BN_set_word([p2 x],3);
+//    BN_set_word([p2 y],10);
+//    BN_set_word(temp,4);
+//    BN_clear_bit(temp, 2);
+////    printf("#######%s\n",BN_bn2dec(temp));
+////    [test2 addPoints:p1 point2:p2 result:r];
+//
+//    
+//    BN_set_word(temp,50901976);
+//    [prime multGByD:temp result:r];
+//    NSLog(@"%@",r);
+//    
+//    BN_free(temp);
+//}
 
 @end

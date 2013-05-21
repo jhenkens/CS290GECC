@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <openssl/bn.h>
 #import "BigPoint.h"
+#import "BigJacobPoint.h"
 
 @interface PrimeCurve : NSObject
 {
@@ -49,7 +50,12 @@
 - (void) addPoints: (BigPoint*) p1
             point2: (BigPoint*) p2
             result: (BigPoint*) r;
+- (void) addJacobPoints: (BigJacobPoint*) p1
+            point2: (BigJacobPoint*) p2
+            result: (BigPoint*) r;
 - (void) multGByD:(BIGNUM*) d
            result:(BigPoint*) r;
+- (void) multGByJacobianD:(BIGNUM*) d
+                   result:(BigPoint*) r;
 
 @end

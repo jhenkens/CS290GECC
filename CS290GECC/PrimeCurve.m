@@ -128,7 +128,8 @@
 
 - (void) addPoints: (BigPoint*) p1
             point2: (BigPoint*) p2
-            result: (BigPoint*) r{
+            result: (BigPoint*) r
+{
     BN_CTX* context= BN_CTX_new();
     [self addPoints:p1 point2:p2 result:r context:context];
     BN_CTX_free(context);
@@ -137,20 +138,25 @@
 - (void) addPoints: (BigPoint*) p1
             point2: (BigPoint*) p2
             result: (BigPoint*) r
-           context: (BN_CTX*) context{
-
+           context: (BN_CTX*) context
+{
     BN_CTX_start(context);
     BIGNUM* temp = BN_CTX_get(context);
     BN_copy(temp,[p1 y]);
     BN_set_negative(temp, !BN_is_negative(temp));
     
-    if( [p1 x] == nil && [p1 y] == nil){
+    if( [p1 x] == nil && [p1 y] == nil)
+    {
         [r copyPoint:p2];
         return;
-    } else if([p2 x]==nil && [p2 y] == nil){
+    }
+    else if([p2 x]==nil && [p2 y] == nil)
+    {
         [r copyPoint:p1];
         return;
-    } else if((BN_cmp([p1 x],[p2 x])==0) && (BN_cmp([p2 y],temp) == 0)){
+    }
+    else if((BN_cmp([p1 x],[p2 x])==0) && (BN_cmp([p2 y],temp) == 0))
+    {
         [r setInf:YES];
         return;
     }
@@ -159,12 +165,15 @@
     BIGNUM* temp2 = BN_CTX_get(context);
     BIGNUM* rTemp = BN_CTX_get(context);
     //If [p1 x] != [p2 x], this will be -1 or 1, both of which should go through.
-    if(BN_cmp([p1 x],[p2 x]) != 0){
+    if(BN_cmp([p1 x],[p2 x]) != 0)
+    {
         BN_mod_sub(temp2, [p2 y], [p1 y], [self p], context);
         BN_mod_sub(temp,[p2 x],[p1 x], [self p], context);
         BN_mod_inverse(temp, temp, [self p], context);
         BN_mod_mul(slope, temp, temp2, [self p], context);
-    } else{
+    }
+    else
+    {
         BN_mod_sqr(temp2, [p1 x], [self p], context);
         BN_mul_word(temp2, 3);
         BN_mod(temp, temp2, [self p], context);
@@ -189,7 +198,8 @@
     BN_CTX_end(context);
 }
 
-- (void) multGByD:(BIGNUM*)d result:(BigPoint *)r{
+- (void) multGByD:(BIGNUM*)d result:(BigPoint *)r
+{
     BN_CTX* context = BN_CTX_new();
     BN_CTX_start(context);
     
@@ -206,28 +216,36 @@
     BOOL nextBit;
     
     
-    for (int i = 0; i<len+1; i++){
+    for (int i = 0; i<len+1; i++)
+    {
         nextBit = BN_is_bit_set(d, i+1);
-        if(currBit ^ ci){
-
-            if(nextBit){
+        if(currBit ^ ci)
+        {
+            if(nextBit)
+            {
                 BN_set_negative([temp y], 1);
                 //Subtract current
             }
-            if(notFirst){
+            if(notFirst)
+            {
                 [self addPoints:temp point2:r result:r context:context];
-            } else{
+            }
+            else
+            {
                 [r copyPoint:temp];
                 notFirst = YES;
             }
-            if(nextBit){
+            if(nextBit)
+            {
                 BN_set_negative([temp y], 0);
-                //Subtract current
             }
         }
-        if((ci + currBit + nextBit) >= 2){
+        if((ci + currBit + nextBit) >= 2)
+        {
             ci = YES;
-        } else{
+        }
+        else
+        {
             ci = NO;
         }
         currBit = nextBit;
@@ -235,6 +253,107 @@
 
     }
 }
+
+- (void) addJacobPoints:(BigJacobPoint *)p1
+                 point2:(BigJacobPoint *)p2
+                 result:(BigJacobPoint *)r
+{
+    BN_CTX* context= BN_CTX_new();
+    [self addJacobPoints:p1 point2:p2 result:r context:context];
+    BN_CTX_free(context);
+}
+
+- (void) addJacobPoints:(BigJacobPoint *)p1
+                 point2:(BigJacobPoint *)p2
+                 result:(BigJacobPoint *)r
+                context:(BN_CTX*) context
+{
+    if(BN_is_one([p1 z]))
+    {
+        [self addJacobPointsMixed:p1 point2:p2 result:r context:context];
+    }
+    else if(BN_is_one([p2 z]))
+    {
+        //Swap p1 and p2 so that p1.z is 1.
+        [self addJacobPointsMixed:p2 point2:p1 result:r context:context];
+    } else
+    {
+        BN_CTX_start(context);
+        //Normal method:
+        BIGNUM* z1sqr = BN_CTX_get(context);
+        BIGNUM* z2sqr = BN_CTX_get(context);
+        BIGNUM* z1cube = BN_CTX_get(context);
+        BIGNUM* z2cube = BN_CTX_get(context);
+        BIGNUM* lambda1 = BN_CTX_get(context);
+        BIGNUM* lambda2 = BN_CTX_get(context);
+        BIGNUM* lambda3 = BN_CTX_get(context);
+        BIGNUM* lambda4 = BN_CTX_get(context);
+        BIGNUM* lambda5 = BN_CTX_get(context);
+        BIGNUM* lambda6 = BN_CTX_get(context);
+        BIGNUM* lambda7 = BN_CTX_get(context);
+        BIGNUM* lambda8 = BN_CTX_get(context);
+        BIGNUM* lambda9 = BN_CTX_get(context);
+        BIGNUM* z1z2 = BN_CTX_get(context);
+        BIGNUM* lambda6sqr = BN_CTX_get(context);
+        BIGNUM* lambda3sqr = BN_CTX_get(context);
+        BIGNUM* lambda7lambda3sqr = BN_CTX_get(context);
+        BIGNUM* twoRX = BN_CTX_get(context);
+        BIGNUM* lambda9lambda6 = BN_CTX_get(context);
+        BIGNUM* lambda8lambda3cube = BN_CTX_get(context);
+        BIGNUM* lambda3cube = BN_CTX_get(context);
+        BIGNUM* twoY3 = BN_CTX_get(context);
+        
+        BN_mod_sqr(z2sqr, [p2 z], [self p], context);
+        BN_mod_mul(lambda1, z2sqr, [p1 x], [self p], context);
+        
+        BN_mod_sqr(z1sqr, [p1 z], [self p], context);
+        BN_mod_mul(lambda2, z1sqr, [p2 x], [self p], context);
+        
+        BN_mod_sub(lambda3, lambda1, lambda2, [self p], context);
+    
+        BN_mod_mul(z2cube, z2sqr, [p2 z], [self p], context);
+        BN_mod_mul(lambda4, z2cube, [p1 y], [self p], context); //z2 cube done, z2sqr done
+        
+        BN_mod_mul(z1cube, z1sqr, [p1 z], [self p], context);
+        BN_mod_mul(lambda5, z1cube, [p2 y], [self p], context); //z1 cube done, z1sqr done
+        
+        BN_mod_sub(lambda6, lambda4, lambda5, [self p], context);
+        
+        BN_mod_add(lambda7, lambda1, lambda2, [self p], context); //lambda 1 and lambda 2 done
+        
+        BN_mod_add(lambda8, lambda4, lambda5, [self p], context);
+        
+        BN_mod_mul(z1z2, [p1 z], [p2 z], [self p], context);
+        BN_mod_mul([r z], z1z2, lambda3, [self p], context);
+        
+        BN_mod_sqr(lambda6sqr, lambda6, [self p], context);
+        BN_mod_sqr(lambda3sqr, lambda3, [self p], context);
+        BN_mod_mul(lambda7lambda3sqr, lambda7, lambda3sqr, [self p], context);
+        BN_mod_sub([r x], lambda6sqr, lambda7lambda3sqr, [self p], context);
+        
+        BN_mod_lshift1(twoRX, [r x], [self p], context);
+        BN_mod_sub(lambda9, lambda7lambda3sqr, twoRX, [self p], context);
+        
+        BN_mod_mul(lambda9lambda6, lambda9, lambda6, [self p], context); //lambda9, lambda6, lambda3, lambda
+        BN_mod_mul(lambda3cube, lambda3sqr, lambda3, [self p], context); //lambda9lambda6, lambda3sqr, lambda3
+        BN_mod_mul(lambda8lambda3cube, lambda3cube, lambda8, [self p], context); //lambda9lambda6, lambda3cube, lambda8
+        BN_mod_sub(twoY3, lambda9lambda6, lambda8lambda3cube, [self p], context); //lambda9lambda6, lambda8lambda3cube
+        BN_mod_lshift1([r y], twoY3, [self p], context); //twoY3
+        
+        
+        BN_CTX_end(context);        
+    }
+
+}
+
+- (void) addJacobPointsMixed:(BigJacobPoint *)p1
+                      point2:(BigJacobPoint *)p2
+                      result:(BigJacobPoint *)r
+                     context:(BN_CTX*) context
+{
+    
+}
+
 
 - (void) dealloc
 {

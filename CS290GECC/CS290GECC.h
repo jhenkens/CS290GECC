@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "ECC.h"
+#import "PrimeCurve.h"
+#import "BigJacobPoint.h"
+#import "BigPoint.h"
 
 @interface CS290GECC : NSObject
 

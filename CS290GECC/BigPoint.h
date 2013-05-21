@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <openssl/bn.h>
+
+@class BigJacobPoint;
+
 @interface BigPoint : NSObject
 {
     BIGNUM *__x;
@@ -27,6 +30,7 @@
                      y:(BIGNUM*) y_;
 - (void) copyPoint:(BigPoint*) p;
 
+- (void) toJacobianPont:(BigJacobPoint*) p;
 - (NSString*) toDecimalString;
 - (NSString*) toHexString;
 @end

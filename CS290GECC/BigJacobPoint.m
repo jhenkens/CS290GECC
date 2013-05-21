@@ -118,6 +118,13 @@
     BN_CTX_end(context);
 }
 
+- (void) printAffine:(BIGNUM*) p
+{
+    BigPoint* temp = [[BigPoint alloc] init];
+    [self toPoint:temp modulo:p];
+    NSLog(@"%@",temp);
+}
+
 - (NSString*) toDecimalString
 {
     if(![self inf])
@@ -151,7 +158,7 @@
 {
     BN_copy([self x],[p x]);
     BN_copy([self y],[p y]);
-    BN_copy([self y],[p z]);
+    BN_copy([self z],[p z]);
     [self setInf:[p inf]];
 }
 

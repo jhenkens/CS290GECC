@@ -39,6 +39,7 @@
 - (void) toPoint:(BigPoint*) p
           modulo:(BIGNUM*)m
          context:(BN_CTX*) context;
+- (void) printAffine:(BIGNUM*) p;
 - (NSString*) toDecimalString;
 - (NSString*) toHexString;
 @end

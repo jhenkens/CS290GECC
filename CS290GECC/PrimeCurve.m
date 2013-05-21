@@ -290,78 +290,10 @@
     }
     else
     {
-        [self addJacobPointsNonMixed:p1 point2:p2 result:r context:context];    
+        [self addJacobPointsNonMixed:p1 point2:p2 result:r context:context];
     }
 }
 
-- (void) addJacobPointsNaive:(BigJacobPoint *)p1
-                      point2:(BigJacobPoint *)p2
-                      result:(BigJacobPoint *)r
-                     context:(BN_CTX*) context
-{
-    // TEMP CODE FOR TESTING PURPOSES
-    BN_CTX_start(context);
-    //Normal method:
-    BIGNUM* z1sqr = BN_new();
-    BIGNUM* z2sqr = BN_new();
-    BIGNUM* z1cube = BN_new();
-    BIGNUM* z2cube = BN_new();
-    BIGNUM* lambda1 = BN_new();
-    BIGNUM* lambda2 = BN_new();
-    BIGNUM* lambda3 = BN_new();
-    BIGNUM* lambda4 = BN_new();
-    BIGNUM* lambda5 = BN_new();
-    BIGNUM* lambda6 = BN_new();
-    BIGNUM* lambda7 = BN_new();
-    BIGNUM* lambda8 = BN_new();
-    BIGNUM* lambda9 = BN_new();
-    BIGNUM* z1z2 = BN_new();
-    BIGNUM* lambda6sqr = BN_new();
-    BIGNUM* lambda3sqr = BN_new();
-    BIGNUM* lambda7lambda3sqr = BN_new();
-    BIGNUM* twoRX = BN_new();
-    BIGNUM* lambda9lambda6 = BN_new();
-    BIGNUM* lambda8lambda3cube = BN_new();
-    BIGNUM* lambda3cube = BN_new();
-    BIGNUM* twoY3 = BN_new();
-    
-    BN_mod_sqr(z2sqr, [p2 z], [self p], context);
-    BN_mod_mul(lambda1, z2sqr, [p1 x], [self p], context);
-    
-    BN_mod_sqr(z1sqr, [p1 z], [self p], context);
-    BN_mod_mul(lambda2, z1sqr, [p2 x], [self p], context);
-    
-    BN_mod_sub(lambda3, lambda1, lambda2, [self p], context);
-    
-    BN_mod_mul(z2cube, z2sqr, [p2 z], [self p], context);
-    BN_mod_mul(lambda4, z2cube, [p1 y], [self p], context); //z2 cube done, z2sqr done
-    
-    BN_mod_mul(z1cube, z1sqr, [p1 z], [self p], context);
-    BN_mod_mul(lambda5, z1cube, [p2 y], [self p], context); //z1 cube done, z1sqr done
-    
-    BN_mod_sub(lambda6, lambda4, lambda5, [self p], context);
-    
-    BN_mod_add(lambda7, lambda1, lambda2, [self p], context); //lambda 1 and lambda 2 done
-    
-    BN_mod_add(lambda8, lambda4, lambda5, [self p], context);
-    
-    BN_mod_mul(z1z2, [p1 z], [p2 z], [self p], context);
-    BN_mod_mul([r z], z1z2, lambda3, [self p], context);
-    
-    BN_mod_sqr(lambda6sqr, lambda6, [self p], context);
-    BN_mod_sqr(lambda3sqr, lambda3, [self p], context);
-    BN_mod_mul(lambda7lambda3sqr, lambda7, lambda3sqr, [self p], context);
-    BN_mod_sub([r x], lambda6sqr, lambda7lambda3sqr, [self p], context);
-    
-    BN_mod_lshift1(twoRX, [r x], [self p], context);
-    BN_mod_sub(lambda9, lambda7lambda3sqr, twoRX, [self p], context);
-    
-    BN_mod_mul(lambda9lambda6, lambda9, lambda6, [self p], context); //lambda9, lambda6, lambda3, lambda
-    BN_mod_mul(lambda3cube, lambda3sqr, lambda3, [self p], context); //lambda9lambda6, lambda3sqr, lambda3
-    BN_mod_mul(lambda8lambda3cube, lambda3cube, lambda8, [self p], context); //lambda9lambda6, lambda3cube, lambda8
-    BN_mod_sub(twoY3, lambda9lambda6, lambda8lambda3cube, [self p], context); //lambda9lambda6, lambda8lambda3cube
-    BN_mod_lshift1([r y], twoY3, [self p], context); //twoY3
-}
 
 - (void) addJacobPointsNonMixed:(BigJacobPoint *)p1
                          point2:(BigJacobPoint *)p2
@@ -555,7 +487,8 @@
         
         // temp3, rx, rz, [r y] temp1 free
         // L8L3cube:rx, L9L6:temp2
-        BN_rshift1([r y], temp1);    
+        BN_add(temp2,temp1,[self p]);
+        BN_rshift1(temp1, temp2);
     }
     BN_CTX_end(context);
 }
@@ -733,7 +666,8 @@
         
         // temp3, rx, rz, [r y] temp1 free
         // L8L3cube:rx, L9L6:temp2
-        BN_rshift1([r y], temp1);
+        BN_add(temp2,temp1,[self p]);
+        BN_rshift1([r y], temp2);
     }
     BN_CTX_end(context);
 }

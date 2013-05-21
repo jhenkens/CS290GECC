@@ -33,4 +33,5 @@
 - (void) toJacobianPont:(BigJacobPoint*) p;
 - (NSString*) toDecimalString;
 - (NSString*) toHexString;
+
 @end

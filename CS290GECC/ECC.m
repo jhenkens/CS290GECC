@@ -116,11 +116,13 @@
 ////    printf("#######%s\n",BN_bn2dec(temp));
 //    [test2 addPoints:p1 point2:p2 result:r];
 
-//    
-//    BN_set_word(temp,50901976);
-//    [prime multGByJacobianD:temp result:r];
-//    NSLog(@"%@",r);
     
+    BN_set_word(temp,3);
+    [prime multGByD:temp result:r];
+    NSLog(@"%@",r);
+    [prime multGByJacobianD:temp result:r2];
+    NSLog(@"%@",r2);
+//
     BN_free(temp);
 }
 

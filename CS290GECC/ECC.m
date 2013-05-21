@@ -59,6 +59,10 @@
     NSLog(@"%@",jp1);
     NSLog(@"%@",p1);
     
+    BN_set_word(temp, 3);
+    BN_set_negative(temp, 0);
+    printf("%d\n",BN_is_word(temp, 3));
+    
 }
 
 //+(void)testMain

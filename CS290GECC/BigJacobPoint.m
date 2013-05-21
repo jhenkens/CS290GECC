@@ -83,7 +83,7 @@
     {
         [self setX:x_];
         [self setY:y_];
-        [self setY:z_];
+        [self setZ:z_];
         [self setInf:NO];
         __fromCtx = YES;
     }

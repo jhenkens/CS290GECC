@@ -65,13 +65,17 @@
 //    
 //}
 
-+(void)testMain
++(void)testMain2
 {
     PrimeCurve* prime = [ECC getD121Curve];
     BigPoint* p1 = [[BigPoint alloc] init];
     BigPoint* p2 = [[BigPoint alloc] init];
     BigPoint* r = [[BigPoint alloc] init];
     BigPoint* r2 = [[BigPoint alloc] init];
+    BigJacobPoint* pj1 = [[BigJacobPoint alloc] init];
+    BigJacobPoint* pj2 = [[BigJacobPoint alloc] init];
+    BigJacobPoint* rj1 = [[BigJacobPoint alloc] init];
+    BigJacobPoint* rj2 = [[BigJacobPoint alloc] init];
     BIGNUM* temp = BN_new();
     
     BN_dec2bn(&temp, "2154360660537946610207436656056507518107437989975993284250");
@@ -83,27 +87,63 @@
     BN_dec2bn(&temp, "1254825656320893673375849154742964262411653302661321552964");
     BN_copy([p2 y],temp);
     [prime addPoints:p1 point2:p2 result:r];
-//    NSLog(@"%@\n",r);
-    BN_set_negative([p1 y],1);
-    [prime addPoints:r point2:p1 result:r2];
-//    NSLog(@"%@ \n %@",r2, p2);
+    NSLog(@"%@\n",r);
     
-    PrimeCurve* test2 = [[PrimeCurve alloc] initWithDecStringP:@"23" n:@"2" SEED:@"3" c:@"4" b:@"1" a:@"1" Gx:@"1" Gy:@"1"];
-    BN_set_word([p1 x], 3);
-    BN_set_word([p1 y],10);
-    BN_set_word([p2 x],3);
-    BN_set_word([p2 y],10);
-    BN_set_word(temp,4);
-    BN_clear_bit(temp, 2);
-//    printf("#######%s\n",BN_bn2dec(temp));
+    [p1 toJacobianPont:pj1];
+    [p2 toJacobianPont:pj2];
+//    NSLog(@"%@",pj2);
+    [prime addJacobPoints:pj1 point2:pj2 result:rj1];
+    [rj1 toPoint:r2 modulo:[prime p]];
+    NSLog(@"%@\n",r2);
+//    
+//    BN_set_negative([p1 y],1);
+//    [prime addPoints:r point2:p1 result:r2];
+//    NSLog(@"%@ \n %@",r2, p2);
+//    
+//    [r toJacobianPont:rj1];
+//    [p1 toJacobianPont:pj1];
+//    [prime addJacobPoints:rj1 point2:pj1 result:rj2];
+//    [rj2 toPoint:r2 modulo:[prime p]];
+//    NSLog(@"%@ \n %@",r2, p2);
+//    
+//    PrimeCurve* test2 = [[PrimeCurve alloc] initWithDecStringP:@"23" n:@"2" SEED:@"3" c:@"4" b:@"1" a:@"1" Gx:@"1" Gy:@"1"];
+//    BN_set_word([p1 x], 3);
+//    BN_set_word([p1 y],10);
+//    BN_set_word([p2 x],3);
+//    BN_set_word([p2 y],10);
+//    BN_set_word(temp,4);
+//    BN_clear_bit(temp, 2);
+////    printf("#######%s\n",BN_bn2dec(temp));
 //    [test2 addPoints:p1 point2:p2 result:r];
 
-    
-    BN_set_word(temp,50901976);
-    [prime multGByJacobianD:temp result:r];
-    NSLog(@"%@",r);
+//    
+//    BN_set_word(temp,50901976);
+//    [prime multGByJacobianD:temp result:r];
+//    NSLog(@"%@",r);
     
     BN_free(temp);
+}
+
++(void)testMain
+{
+//    PrimeCurve* prime = [ECC getD121Curve];
+//    BIGNUM* temp = BN_new();
+//    BIGNUM* temp2 = BN_new();
+//    BIGNUM* temp3 = BN_new();
+//    BIGNUM* res = BN_new();
+//    BN_CTX* context = BN_CTX_new();
+//    BN_CTX_start(context);
+//    
+//    BN_dec2bn(&temp, "2154360660537946610207436656056507518107437989975993284250");
+//    
+//    BN_set_word(temp2, 2);
+//    BN_mod_inverse(temp3, temp2, [prime p], context);
+//    BN_mod_mul(res,temp,temp3,[prime p], context);
+//    BN_rshift1(temp2, temp);
+//    
+//    NSLog(@"%s\n",BN_bn2dec(res));
+//    NSLog(@"%s\n",BN_bn2dec(temp2));
+    [self testMain2];
 }
 
 @end

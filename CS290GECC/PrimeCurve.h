@@ -52,7 +52,7 @@
             result: (BigPoint*) r;
 - (void) addJacobPoints: (BigJacobPoint*) p1
             point2: (BigJacobPoint*) p2
-            result: (BigPoint*) r;
+            result: (BigJacobPoint*) r;
 - (void) multGByD:(BIGNUM*) d
            result:(BigPoint*) r;
 - (void) multGByJacobianD:(BIGNUM*) d

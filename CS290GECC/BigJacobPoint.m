@@ -104,13 +104,17 @@
 {
     BN_CTX_start(context);
     BIGNUM* inv = BN_CTX_get(context);
-    BIGNUM* temp = BN_CTX_get(context);
-    BIGNUM* temp2 = BN_CTX_get(context);
+    BIGNUM* inv2 = BN_CTX_get(context);
+    BIGNUM* inv3 = BN_CTX_get(context);
+    
     BN_mod_inverse(inv, [self z], m, context);
-    BN_mod_sqr(temp, inv, m, context);
-    BN_mod_mul([p x], temp, [self x], m, context);
-    BN_mod_mul(temp2, temp, inv, m, context);
-    BN_mod_mul([p y], temp2, [self y], m, context);
+    
+    BN_mod_sqr(inv2, inv, m, context);
+    BN_mod_mul([p x], inv2, [self x], m, context);
+    
+    BN_mod_mul(inv3, inv2, inv, m, context);
+    BN_mod_mul([p y], inv3, [self y], m, context);
+    
     BN_CTX_end(context);
 }
 

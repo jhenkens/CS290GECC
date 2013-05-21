@@ -271,7 +271,7 @@
                  result:(BigJacobPoint *)r
                 context:(BN_CTX*) context
 {
-    /*if( [p1 inf])
+    if( [p1 inf])
     {
         [r copyJacobPoint:p2];
     }
@@ -279,7 +279,7 @@
     {
         [r copyJacobPoint:p1];
     }
-    else */if(BN_is_one([p1 z]))
+    else if(BN_is_one([p1 z]))
     {
         [self addJacobPointsMixed:p1 point2:p2 result:r context:context];
     }
@@ -290,193 +290,274 @@
     }
     else
     {
-        BN_CTX_start(context);
-        //Normal method:
-        BIGNUM* rx = BN_CTX_get(context);
-        BIGNUM* ry = BN_CTX_get(context);
-        BIGNUM* rz = BN_CTX_get(context);
-        BIGNUM* temp1 = BN_CTX_get(context);
-        BIGNUM* temp2 = BN_CTX_get(context);
-        BIGNUM* temp3 = BN_CTX_get(context);
+        [self addJacobPointsNonMixed:p1 point2:p2 result:r context:context];    
+    }
+}
+
+- (void) addJacobPointsNaive:(BigJacobPoint *)p1
+                      point2:(BigJacobPoint *)p2
+                      result:(BigJacobPoint *)r
+                     context:(BN_CTX*) context
+{
+    // TEMP CODE FOR TESTING PURPOSES
+    BN_CTX_start(context);
+    //Normal method:
+    BIGNUM* z1sqr = BN_new();
+    BIGNUM* z2sqr = BN_new();
+    BIGNUM* z1cube = BN_new();
+    BIGNUM* z2cube = BN_new();
+    BIGNUM* lambda1 = BN_new();
+    BIGNUM* lambda2 = BN_new();
+    BIGNUM* lambda3 = BN_new();
+    BIGNUM* lambda4 = BN_new();
+    BIGNUM* lambda5 = BN_new();
+    BIGNUM* lambda6 = BN_new();
+    BIGNUM* lambda7 = BN_new();
+    BIGNUM* lambda8 = BN_new();
+    BIGNUM* lambda9 = BN_new();
+    BIGNUM* z1z2 = BN_new();
+    BIGNUM* lambda6sqr = BN_new();
+    BIGNUM* lambda3sqr = BN_new();
+    BIGNUM* lambda7lambda3sqr = BN_new();
+    BIGNUM* twoRX = BN_new();
+    BIGNUM* lambda9lambda6 = BN_new();
+    BIGNUM* lambda8lambda3cube = BN_new();
+    BIGNUM* lambda3cube = BN_new();
+    BIGNUM* twoY3 = BN_new();
+    
+    BN_mod_sqr(z2sqr, [p2 z], [self p], context);
+    BN_mod_mul(lambda1, z2sqr, [p1 x], [self p], context);
+    
+    BN_mod_sqr(z1sqr, [p1 z], [self p], context);
+    BN_mod_mul(lambda2, z1sqr, [p2 x], [self p], context);
+    
+    BN_mod_sub(lambda3, lambda1, lambda2, [self p], context);
+    
+    BN_mod_mul(z2cube, z2sqr, [p2 z], [self p], context);
+    BN_mod_mul(lambda4, z2cube, [p1 y], [self p], context); //z2 cube done, z2sqr done
+    
+    BN_mod_mul(z1cube, z1sqr, [p1 z], [self p], context);
+    BN_mod_mul(lambda5, z1cube, [p2 y], [self p], context); //z1 cube done, z1sqr done
+    
+    BN_mod_sub(lambda6, lambda4, lambda5, [self p], context);
+    
+    BN_mod_add(lambda7, lambda1, lambda2, [self p], context); //lambda 1 and lambda 2 done
+    
+    BN_mod_add(lambda8, lambda4, lambda5, [self p], context);
+    
+    BN_mod_mul(z1z2, [p1 z], [p2 z], [self p], context);
+    BN_mod_mul([r z], z1z2, lambda3, [self p], context);
+    
+    BN_mod_sqr(lambda6sqr, lambda6, [self p], context);
+    BN_mod_sqr(lambda3sqr, lambda3, [self p], context);
+    BN_mod_mul(lambda7lambda3sqr, lambda7, lambda3sqr, [self p], context);
+    BN_mod_sub([r x], lambda6sqr, lambda7lambda3sqr, [self p], context);
+    
+    BN_mod_lshift1(twoRX, [r x], [self p], context);
+    BN_mod_sub(lambda9, lambda7lambda3sqr, twoRX, [self p], context);
+    
+    BN_mod_mul(lambda9lambda6, lambda9, lambda6, [self p], context); //lambda9, lambda6, lambda3, lambda
+    BN_mod_mul(lambda3cube, lambda3sqr, lambda3, [self p], context); //lambda9lambda6, lambda3sqr, lambda3
+    BN_mod_mul(lambda8lambda3cube, lambda3cube, lambda8, [self p], context); //lambda9lambda6, lambda3cube, lambda8
+    BN_mod_sub(twoY3, lambda9lambda6, lambda8lambda3cube, [self p], context); //lambda9lambda6, lambda8lambda3cube
+    BN_mod_lshift1([r y], twoY3, [self p], context); //twoY3
+}
+
+- (void) addJacobPointsNonMixed:(BigJacobPoint *)p1
+                         point2:(BigJacobPoint *)p2
+                         result:(BigJacobPoint *)r
+                        context:(BN_CTX*) context
+{
+    BN_CTX_start(context);
+    //Normal method:
+    BIGNUM* rx = BN_CTX_get(context);
+    BIGNUM* ry = BN_CTX_get(context);
+    BIGNUM* rz = BN_CTX_get(context);
+    BIGNUM* temp1 = BN_CTX_get(context);
+    BIGNUM* temp2 = BN_CTX_get(context);
+    BIGNUM* temp3 = BN_CTX_get(context);
+    
+    //L1 : rx ; temp1:z2sqr
+    BN_mod_sqr(temp1, [p2 z], [self p], context);
+    BN_mod_mul(rx, temp1, [p1 x], [self p], context);
+    
+    //L2 : ry ; temp2:z1sqr
+    BN_mod_sqr(temp2, [p1 z], [self p], context);
+    BN_mod_mul(ry, temp2, [p2 x], [self p], context);
+    
+    //L3 : rz
+    BN_mod_sub(rz, rx, ry, [self p], context);
+    
+    if(BN_is_zero(rz))
+    {
+        //If it is zero, we are either doubling, or setting to infinity.
+        //We need to check lambda6 to know, so lets rush to do that.
+        //We need to save z1sqr (temp2) in case it is a doubling,
+
+        //L4: rx
+        BN_mod_mul(ry, temp1, [p2 z], [self p], context);
+        BN_mod_mul(rx, ry, [p1 y], [self p], context);
         
-        //L1 : rx ; temp1:z2sqr
-        BN_mod_sqr(temp1, [p2 z], [self p], context);
-        BN_mod_mul(rx, temp1, [p1 x], [self p], context);
+        //L5: ry
+        BN_mod_mul(temp1, temp2, [p1 z], [self p], context);
+        BN_mod_mul(ry, temp1, [p2 y], [self p], context);
         
-        //L2 : ry ; temp2:z1sqr
-        BN_mod_sqr(temp2, [p1 z], [self p], context);
-        BN_mod_mul(ry, temp2, [p2 x], [self p], context);
-        
-        //L3 : rz
-        BN_mod_sub(rz, rx, ry, [self p], context);
-        
-        if(BN_is_zero(rz))
+        //L6
+        BN_mod_sub(temp1, rx, ry, [self p], context);
+        if(BN_is_zero(temp1))
         {
-            //If it is zero, we are either doubling, or setting to infinity.
-            //We need to check lambda6 to know, so lets rush to do that.
-            //We need to save z1sqr (temp1) in case it is a doubling,
-            
-            //L5: ry
-            BN_mod_mul(rx, temp2, [p1 z], [self p], context);
-            BN_mod_mul(ry, rx, [p2 y], [self p], context);
-
-            //L4: rx
-            BN_mod_mul(temp2, temp1, [p2 z], [self p], context);
-            BN_mod_mul(rx, temp2, [p1 y], [self p], context);
-            
-            //L6
-            BN_mod_sub(temp2, rx, ry, [self p], context);
-            if(BN_is_zero(temp2))
+            BOOL fastStart = NO;
+            //If it is zero, then we are doubling
+            if(BN_is_negative([self a]))
             {
-                BOOL fastStart = NO;
-                //If it is zero, then we are doubling
-                if(BN_is_negative([self a]))
+                BN_set_negative([self a], 0);
+                if(BN_is_word([self a], 3))
                 {
-                    BN_set_negative([self a], 0);
-                    if(BN_is_word([self a], 3))
-                    {
-                        fastStart = YES;
-                    }
-                    BN_set_negative([self a], 1);
+                    fastStart = YES;
                 }
-                
-                //At this point, the only important variable is z1sqr, in temp1.
-                // rx, ry, rz, temp2 are free.
-                // [r x], [r y], [r z] are not yet free.
-                // z1sqr:temp1, 3:temp3
-                BN_set_word(temp3, 3);
-                
-                // After start:
-                // rx, ry, temp1, temp2, temp3 are free.
-                // L1:rz
-                if(fastStart)
-                {
-                    BN_mod_add(ry, [p1 x], temp1, [self p], context);
-                    BN_mod_sub(rz, [p1 x], temp1, [self p], context);
-                    BN_mod_mul(rx, ry, rz, [self p], context);
-                    BN_mod_mul(rz, rx, temp3, [self p], context);
-                }
-                else
-                {
-                    BN_mod_sqr(ry, temp1, [self p], context);
-                    BN_mod_mul(temp1, ry, [self a], [self p], context);
-                    BN_mod_sqr(ry, [p1 x], [self p], context);
-                    BN_mod_mul(temp2, ry, temp3, [self p], context);
-                    BN_mod_add(rz, temp1, temp2, [self p], context);
-                }
-                
-                // rx, ry, temp1, temp2, temp3 are free.
-                // L1:rz
-                BN_mod_mul(temp1, [p1 y], [p1 z], [self p], context);
-                BN_mod_lshift1([r z], temp1, [self p], context);
-                
-                // ry, temp1, temp2, temp3 are free.
-                // L1:rz, y1sqr:rx
-                BN_mod_sqr(rx, [p1 y], [self p], context);
-
-                // temp1, temp2, temp3 are free.
-                // L1:rz, y1sqr:rx, L2:ry
-                BN_mod_mul(temp1, rx, [p1 x], [self p], context);
-                BN_mod_lshift(ry, temp1, 2, [self p], context);
-                
-                // temp1, temp2, temp3 are free.
-                // L1:rz, y1sqr:rx, L2:ry
-                BN_mod_lshift1(temp1, ry, [self p], context);
-                BN_mod_sqr(temp2, rz, [self p], context);
-                BN_mod_sub([r x], temp2, temp1, [self p], context);
-
-                // temp2, temp3 are free.
-                // L1:rz, y1sqr:rx, L2:ry, L3:temp1
-                BN_mod_sqr(temp2, rx, [self p], context);
-                BN_mod_lshift(temp1, temp2, 3, [self p], context);
-
-                // temp2, temp3 are free.
-                // L1:rz, y1sqr:rx, L2:ry, L3:temp1
-                BN_mod_sub(temp2, ry, [r x], [self p], context);
-                BN_mod_mul(temp3, temp2, rz, [self p], context);
-                BN_mod_sub([r y], temp3, temp1, [self p], context);
+                BN_set_negative([self a], 1);
+            }
+            
+            //At this point, the only important variable is z1sqr, in temp2.
+            // rx, ry, rz, temp1 are free.
+            // [r x], [r y], [r z] are not yet free.
+            // z1sqr:temp1, 3:temp3
+            BN_set_word(temp3, 3);
+            
+            // After start:
+            // rx, ry, temp1, temp2, temp3 are free.
+            // L1:rz
+            if(fastStart)
+            {
+                BN_mod_add(ry, [p1 x], temp2, [self p], context);
+                BN_mod_sub(rz, [p1 x], temp2, [self p], context);
+                BN_mod_mul(rx, ry, rz, [self p], context);
+                BN_mod_mul(rz, rx, temp3, [self p], context);
             }
             else
-                //If it is not zero, then P1 = -P2, Thus P1 + P2 = -P2 + P2 = INF
             {
-                [r setInf:YES];
+                BN_mod_sqr(ry, temp2, [self p], context);
+                BN_mod_mul(temp1, ry, [self a], [self p], context);
+                BN_mod_sqr(ry, [p1 x], [self p], context);
+                BN_mod_mul(temp2, ry, temp3, [self p], context);
+                BN_mod_add(rz, temp1, temp2, [self p], context);
             }
+            
+            // rx, ry, temp1, temp2, temp3 are free.
+            // L1:rz
+            BN_mod_mul(temp1, [p1 y], [p1 z], [self p], context);
+            BN_mod_lshift1([r z], temp1, [self p], context);
+            
+            // ry, temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx
+            BN_mod_sqr(rx, [p1 y], [self p], context);
+            
+            // temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry
+            BN_mod_mul(temp1, rx, [p1 x], [self p], context);
+            BN_mod_lshift(ry, temp1, 2, [self p], context);
+            
+            // temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry
+            BN_mod_lshift1(temp1, ry, [self p], context);
+            BN_mod_sqr(temp2, rz, [self p], context);
+            BN_mod_sub([r x], temp2, temp1, [self p], context);
+            
+            // temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry, L3:temp1
+            BN_mod_sqr(temp2, rx, [self p], context);
+            BN_mod_lshift(temp1, temp2, 3, [self p], context);
+            
+            // temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry, L3:temp1
+            BN_mod_sub(temp2, ry, [r x], [self p], context);
+            BN_mod_mul(temp3, temp2, rz, [self p], context);
+            BN_mod_sub([r y], temp3, temp1, [self p], context);
         }
         else
+            //If it is not zero, then P1 = -P2, Thus P1 + P2 = -P2 + P2 = INF
         {
-            //Right now, L1:rx, L2:ry, L3:rz, z2sqr:temp1, z1sqr:temp2
-            //After we make L7, L1 and L2 are no longer needed.
-            //After we make L4 and L5, temp1 and temp2 are no longer needed.
-            //L7:temp3
-            BN_mod_add(temp3, rx, ry, [self p], context);
-            
-            //L4:temp1   (Y1 Z2cube)
-            BN_mod_mul(rx, temp1, [p2 z], [self p], context);
-            BN_mod_mul(temp1, rx, [p1 y], [self p], context);
-            
-            //L5:temp2  (Y2 Z1cube)
-            BN_mod_mul(rx, temp2, [p1 z], [self p], context);
-            BN_mod_mul(temp2, rx, [p2 y], [self p], context);
-            //rx, ry are free.
-            // L3:rz, L4:temp1, L5:temp2, L7:temp3
-            
-            // Making Z1*Z2
-            BN_mod_mul(rx,[p1 z], [p2 z], [self p], context);
-            //We are now done with accessing the values in p1 and p2
-            //This means we can write directly to r without worry about anything
-            BN_mod_mul([r z], rx, rz, [self p], context);
-            
-            //ry, [r y], [r x] is free.
-            // L3:rz, L4:temp1, L5:temp2, L7:temp3, L6: rx
-            BN_mod_sub(rx, temp1, temp2, [self p], context);
-
-            //[r y], [r x], temp1, temp2 is free.
-            // L3:rz L7:temp3, L6: rx, L8:ry
-            BN_mod_add(ry, temp1, temp2, [self p], context);
-            
-            // [r x], temp1, temp2 is free.
-            // L3:rz L7:temp3, L6: rx, L8:ry, [r y]:L6sqr
-            BN_mod_sqr([r y], rx, [self p], context);
-            
-            // [r x], temp2 is free.
-            // L3:rz L7:temp3, L6: rx, L8:ry, L6sqr:[r y], L3sqr:temp1
-            BN_mod_sqr(temp1, rz, [self p], context);
-            
-            // temp3 free
-            // L3:rz L6:rx, L8:ry, L6sqr:[r y], L3sqr:temp1, L7L3sqr:temp2
-            BN_mod_mul(temp2, temp3, temp1, [self p], context);
-            
-            // temp3, [r y] free
-            // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2
-            BN_mod_sub([r x], [r y], temp2, [self p], context);
-            
-            // [r y] free
-            // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2, 2[r x]:temp3
-            BN_mod_lshift1(temp3, [r x], [self p], context);
-            
-            // temp2, temp3 free
-            // L3:rz L6:rx, L8:ry, L3sqr:temp1, L9:[r y]
-            BN_mod_sub([r y], temp2, temp3, [self p], context);
-            
-            // temp3, [r y], rx free
-            // L3:rz, L8:ry, L3sqr:temp1, L9L6:temp2
-            BN_mod_mul(temp2, [r y], rx, [self p], context);
-            
-            // temp3, rx, rz, temp1 free
-            // L8:ry, L9L6:temp2, L3cube:[r y]
-            BN_mod_mul([r y], rz, temp1, [self p], context);
-            
-            // temp3, rx, rz, [r y] temp1 free
-            // L8L3cube:rx, L9L6:temp2
-            BN_mod_mul(rx, ry, [r y], [self p], context);
-            
-            // temp3, rx, rz, [r y] temp1 free
-            // L8L3cube:rx, L9L6:temp2
-            BN_rshift1([r y], rx);
+            [r setInf:YES];
         }
-        BN_CTX_end(context);        
     }
-
+    else
+    {
+        
+        //Right now, L1:rx, L2:ry, L3:rz, z2sqr:temp1, z1sqr:temp2
+        //After we make L7, L1 and L2 are no longer needed.
+        //After we make L4 and L5, temp1 and temp2 are no longer needed.
+        //L7:temp3
+        BN_mod_add(temp3, rx, ry, [self p], context);
+        
+        //L4:temp1   (Y1 Z2cube)
+        BN_mod_mul(rx, temp1, [p2 z], [self p], context);
+        BN_mod_mul(temp1, rx, [p1 y], [self p], context);
+        
+        //L5:temp2  (Y2 Z1cube)
+        BN_mod_mul(rx, temp2, [p1 z], [self p], context);
+        BN_mod_mul(temp2, rx, [p2 y], [self p], context);
+        //rx, ry are free.
+        // L3:rz, L4:temp1, L5:temp2, L7:temp3
+        
+        // Making Z1*Z2
+        BN_mod_mul(rx,[p1 z], [p2 z], [self p], context);
+        //We are now done with accessing the values in p1 and p2
+        //This means we can write directly to r without worry about anything
+        BN_mod_mul([r z], rx, rz, [self p], context);
+        
+        //ry, [r y], [r x] is free.
+        // L3:rz, L4:temp1, L5:temp2, L7:temp3, L6: rx
+        BN_mod_sub(rx, temp1, temp2, [self p], context);
+        
+        //[r y], [r x], temp1, temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry
+        BN_mod_add(ry, temp1, temp2, [self p], context);
+        
+        // [r x], temp1, temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry, [r y]:L6sqr
+        BN_mod_sqr([r y], rx, [self p], context);
+        
+        // [r x], temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry, L6sqr:[r y], L3sqr:temp1
+        BN_mod_sqr(temp1, rz, [self p], context);
+        
+        // temp3 free
+        // L3:rz L6:rx, L8:ry, L6sqr:[r y], L3sqr:temp1, L7L3sqr:temp2
+        BN_mod_mul(temp2, temp3, temp1, [self p], context);
+        
+        // temp3, [r y] free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2
+        BN_mod_sub([r x], [r y], temp2, [self p], context);
+        
+        // [r y] free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2, 2[r x]:temp3
+        BN_mod_lshift1(temp3, [r x], [self p], context);
+        
+        // temp2, temp3 free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L9:[r y]
+        BN_mod_sub([r y], temp2, temp3, [self p], context);
+        
+        // temp3, [r y], rx free
+        // L3:rz, L8:ry, L3sqr:temp1, L9L6:temp2
+        BN_mod_mul(temp2, [r y], rx, [self p], context);
+        
+        // temp3, rx, rz, temp1 free
+        // L8:ry, L9L6:temp2, L3cube:[r y]
+        BN_mod_mul([r y], rz, temp1, [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_mod_mul(rx, ry, [r y], [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_mod_sub(temp1, temp2, rx, [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_rshift1([r y], temp1);    
+    }
+    BN_CTX_end(context);
 }
 
 - (void) addJacobPointsMixed:(BigJacobPoint *)p1
@@ -484,7 +565,177 @@
                       result:(BigJacobPoint *)r
                      context:(BN_CTX*) context
 {
+    BN_CTX_start(context);
+    //Normal method:
+    BIGNUM* rx = BN_CTX_get(context);
+    BIGNUM* ry = BN_CTX_get(context);
+    BIGNUM* rz = BN_CTX_get(context);
+    BIGNUM* temp1 = BN_CTX_get(context);
+    BIGNUM* temp2 = BN_CTX_get(context);
+    BIGNUM* temp3 = BN_CTX_get(context);
     
+    //L1 : rx ; temp1:z2sqr
+    BN_mod_sqr(temp1, [p2 z], [self p], context);
+    BN_mod_mul(rx, temp1, [p1 x], [self p], context);
+    
+//    //L2 : ry ; temp2:z1sqr
+//    BN_mod_sqr(temp2, [p1 z], [self p], context);
+//    BN_mod_mul(ry, temp2, [p2 x], [self p], context);
+    
+    //L3 : rz
+//    BN_mod_sub(rz, rx, ry, [self p], context);
+    BN_mod_sub(rz, rx, [p2 x], [self p], context);
+    
+    if(BN_is_zero(rz))
+    {
+        //If it is zero, we are either doubling, or setting to infinity.
+        //We need to check lambda6 to know, so lets rush to do that.
+        //We need to save z1sqr (temp2) in case it is a doubling,
+        
+        //L4: rx
+        BN_mod_mul(ry, temp1, [p2 z], [self p], context);
+        BN_mod_mul(rx, ry, [p1 y], [self p], context);
+        
+        //        //L5: ry
+        //        BN_mod_mul(temp1, temp2, [p1 z], [self p], context);
+        //        BN_mod_mul(ry, temp1, [p2 y], [self p], context);
+        
+        //L6
+        //        BN_mod_sub(temp1, rx, ry, [self p], context);
+        BN_mod_sub(temp1, rx, [p2 y], [self p], context);
+        if(BN_is_zero(temp1))
+        {
+
+            //At this point, the only important variable is z1sqr, in temp2.
+            // rx, ry, rz, temp1 are free.
+            // [r x], [r y], [r z] are not yet free.
+            // z1sqr:temp1, 3:temp3
+            BN_set_word(temp3, 3);
+            
+            // After start:
+            // rx, ry, temp1, temp2, temp3 are free.
+            // L1:rz
+            // No fast start, as Z1 ==1
+            
+            BN_mod_sqr(ry, [p1 x], [self p], context);
+            BN_mod_mul(temp2, ry, temp3, [self p], context);
+            BN_mod_add(rz, temp2, [self a], [self p], context);
+            
+            
+            // rx, ry, temp1, temp2, temp3 are free.
+            // L1:rz
+            BN_mod_lshift1([r z], [p1 y], [self p], context);
+            
+            // ry, temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx
+            BN_mod_sqr(rx, [p1 y], [self p], context);
+            
+            // temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry
+            BN_mod_mul(temp1, rx, [p1 x], [self p], context);
+            BN_mod_lshift(ry, temp1, 2, [self p], context);
+            
+            // temp1, temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry
+            BN_mod_lshift1(temp1, ry, [self p], context);
+            BN_mod_sqr(temp2, rz, [self p], context);
+            BN_mod_sub([r x], temp2, temp1, [self p], context);
+            
+            // temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry, L3:temp1
+            BN_mod_sqr(temp2, rx, [self p], context);
+            BN_mod_lshift(temp1, temp2, 3, [self p], context);
+            
+            // temp2, temp3 are free.
+            // L1:rz, y1sqr:rx, L2:ry, L3:temp1
+            BN_mod_sub(temp2, ry, [r x], [self p], context);
+            BN_mod_mul(temp3, temp2, rz, [self p], context);
+            BN_mod_sub([r y], temp3, temp1, [self p], context);
+        }
+        else
+            //If it is not zero, then P1 = -P2, Thus P1 + P2 = -P2 + P2 = INF
+        {
+            [r setInf:YES];
+        }
+    }
+    else
+    {
+        
+        //Right now, L1:rx, L2:ry, L3:rz, z2sqr:temp1, z1sqr:temp2
+        //After we make L7, L1 and L2 are no longer needed.
+        //After we make L4 and L5, temp1 and temp2 are no longer needed.
+        //L7:temp3
+        BN_mod_add(temp3, rx, [p2 x], [self p], context);
+        
+        //L4:temp1   (Y1 Z2cube)
+        BN_mod_mul(rx, temp1, [p2 z], [self p], context);
+        BN_mod_mul(temp1, rx, [p1 y], [self p], context);
+        
+//        //L5:temp2  (Y2 Z1cube)
+//        BN_mod_mul(rx, temp2, [p1 z], [self p], context);
+//        BN_mod_mul(temp2, rx, [p2 y], [self p], context);
+        //rx, ry are free.
+        // L3:rz, L4:temp1, L5:temp2, L7:temp3
+        
+        // Making Z1*Z2
+//        BN_mod_mul(rx,[p1 z], [p2 z], [self p], context);
+        //We are now done with accessing the values in p1 and p2
+        //This means we can write directly to r without worry about anything
+        BN_mod_mul([r z], [p2 z], rz, [self p], context);
+        
+        //ry, [r y], [r x] is free.
+        // L3:rz, L4:temp1, L5:temp2, L7:temp3, L6: rx
+        BN_mod_sub(rx, temp1, [p2 y], [self p], context);
+        
+        //[r y], [r x], temp1, temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry
+        BN_mod_add(ry, temp1, [p2 y], [self p], context);
+        
+        // [r x], temp1, temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry, [r y]:L6sqr
+        BN_mod_sqr([r y], rx, [self p], context);
+        
+        // [r x], temp2 is free.
+        // L3:rz L7:temp3, L6: rx, L8:ry, L6sqr:[r y], L3sqr:temp1
+        BN_mod_sqr(temp1, rz, [self p], context);
+        
+        // temp3 free
+        // L3:rz L6:rx, L8:ry, L6sqr:[r y], L3sqr:temp1, L7L3sqr:temp2
+        BN_mod_mul(temp2, temp3, temp1, [self p], context);
+        
+        // temp3, [r y] free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2
+        BN_mod_sub([r x], [r y], temp2, [self p], context);
+        
+        // [r y] free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L7L3sqr:temp2, 2[r x]:temp3
+        BN_mod_lshift1(temp3, [r x], [self p], context);
+        
+        // temp2, temp3 free
+        // L3:rz L6:rx, L8:ry, L3sqr:temp1, L9:[r y]
+        BN_mod_sub([r y], temp2, temp3, [self p], context);
+        
+        // temp3, [r y], rx free
+        // L3:rz, L8:ry, L3sqr:temp1, L9L6:temp2
+        BN_mod_mul(temp2, [r y], rx, [self p], context);
+        
+        // temp3, rx, rz, temp1 free
+        // L8:ry, L9L6:temp2, L3cube:[r y]
+        BN_mod_mul([r y], rz, temp1, [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_mod_mul(rx, ry, [r y], [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_mod_sub(temp1, temp2, rx, [self p], context);
+        
+        // temp3, rx, rz, [r y] temp1 free
+        // L8L3cube:rx, L9L6:temp2
+        BN_rshift1([r y], temp1);
+    }
+    BN_CTX_end(context);
 }
 
 - (void) multGByJacobianD:(BIGNUM *)d

@@ -487,8 +487,11 @@
         
         // temp3, rx, rz, [r y] temp1 free
         // L8L3cube:rx, L9L6:temp2
-        BN_add(temp2,temp1,[self p]);
-        BN_rshift1(temp1, temp2);
+        if(BN_is_odd(temp1)){
+            BN_add(temp2,temp1,[self p]);
+            temp1=temp2;
+        }
+        BN_rshift1([r y], temp1);
     }
     BN_CTX_end(context);
 }
@@ -666,8 +669,11 @@
         
         // temp3, rx, rz, [r y] temp1 free
         // L8L3cube:rx, L9L6:temp2
-        BN_add(temp2,temp1,[self p]);
-        BN_rshift1([r y], temp2);
+        if(BN_is_odd(temp1)){
+            BN_add(temp2,temp1,[self p]);
+            temp1=temp2;
+        }
+        BN_rshift1([r y], temp1);
     }
     BN_CTX_end(context);
 }

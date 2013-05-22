@@ -87,15 +87,15 @@
     BN_dec2bn(&temp, "1254825656320893673375849154742964262411653302661321552964");
     BN_copy([p2 y],temp);
     [prime addPoints:p1 point2:p2 result:r];
-    NSLog(@"%@\n",r);
+//    NSLog(@"%@\n",r);
     
     [p1 toJacobianPont:pj1];
     [p2 toJacobianPont:pj2];
 //    NSLog(@"%@",pj2);
     [prime addJacobPoints:pj1 point2:pj2 result:rj1];
     [rj1 toPoint:r2 modulo:[prime p]];
-    NSLog(@"%@\n",r2);
-//    
+//    NSLog(@"%@\n",r2);
+//
 //    BN_set_negative([p1 y],1);
 //    [prime addPoints:r point2:p1 result:r2];
 //    NSLog(@"%@ \n %@",r2, p2);
@@ -116,8 +116,9 @@
 ////    printf("#######%s\n",BN_bn2dec(temp));
 //    [test2 addPoints:p1 point2:p2 result:r];
 
+//    NSLog(@"G: %@",[prime g]);
     
-    BN_set_word(temp,3);
+    BN_set_word(temp,1879234123);
     [prime multGByD:temp result:r];
     NSLog(@"%@",r);
     [prime multGByJacobianD:temp result:r2];

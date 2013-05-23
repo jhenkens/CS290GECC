@@ -29,7 +29,7 @@
 {
     PrimeCurve* result = [[PrimeCurve alloc]
         initWithHexStringP:@"fffffffffffffffffffffffffffffffeffffffffffffffff"
-        n:@"fffffffffffffffffffffff99def836146bc9b1b4d22831"
+        n:@"ffffffffffffffffffffffff99def836146bc9b1b4d22831"
         SEED:@"3045ae6fc8422f64ed579528d38120eae12196d5"
         c:@"3099d2bbbfcb2538542dcd5fb078b6ef5f3d6fe2c745de65"
         b:@"64210519e59c80e70fa7e9ab72243049feb8deecc146b9b1"
@@ -146,7 +146,87 @@
 //    
 //    NSLog(@"%s\n",BN_bn2dec(res));
 //    NSLog(@"%s\n",BN_bn2dec(temp2));
-    [self testMain2];
+    [self testMain];
+}
+
++ (void) HW2Driver
+{
+    PrimeCurve* curve = [self getD121Curve];
+    
+    BIGNUM* rand192 = BN_new();
+    BIGNUM* rand144 = BN_new();
+    BIGNUM* rand96 = BN_new();
+    BigPoint* resAff = [[BigPoint alloc] init];
+    BigPoint* resJab = [[BigPoint alloc] init];
+    
+    BN_rand(rand192, 192, 0, false);
+    while(BN_cmp(rand192,[curve n]) >= 0)
+    {
+        BN_rand(rand192, 192, 0, false);
+    }
+    BN_rand(rand144, 144, 0, false);
+    BN_rand(rand96, 96, 0, false);
+    NSLog(@"N192: %s",BN_bn2dec(rand192));
+    NSLog(@"N144: %s",BN_bn2dec(rand144));
+    NSLog(@"N96: %s",BN_bn2dec(rand96));
+    
+    [curve multGByD:rand192 result:resAff];
+    [curve multGByJacobianD:rand192 result:resJab];
+    NSLog(@"Testing equality with 192 bit...");
+    assert([resAff isEqual:resJab]);
+    
+    [curve multGByD:rand144 result:resAff];
+    [curve multGByJacobianD:rand144 result:resJab];
+    NSLog(@"Testing equality with 144 bit...");
+    assert([resAff isEqual:resJab]);
+    
+    [curve multGByD:rand96 result:resAff];
+    [curve multGByJacobianD:rand96 result:resJab];
+    NSLog(@"Testing equality with 96 bit...");
+    assert([resAff isEqual:resJab]);
+    NSLog(@"Testing done! Beginning performance timings...");
+    
+    BIGNUM* curr;
+    for(int i = 0; i <3; i++){
+        int iterations = 0;
+        int bits = 0;
+        NSTimeInterval start, duration;
+        switch(i){
+            case 0:
+                curr = rand192;
+                bits = 192;
+                iterations = 2000;
+                break;
+            case 1:
+                curr = rand144;
+                bits = 144;
+                iterations = 3500;
+                break;
+            case 2:
+                curr = rand96;
+                bits = 96;
+                iterations = 4500;
+                break;
+            default:
+                exit(1);
+        }
+        
+        start = [NSDate timeIntervalSinceReferenceDate];
+        for(int i = 0; i < iterations;i++){
+            [curve multGByD:curr result:resAff];
+        }
+        duration = [NSDate timeIntervalSinceReferenceDate] - start;
+        NSLog(@"Finished affine testing for %d bits with %d iterations. Duration: %f, Average: %f",bits,iterations,duration,duration/iterations);
+        
+        start = [NSDate timeIntervalSinceReferenceDate];
+        for(int i = 0; i < iterations;i++){
+            [curve multGByJacobianD:curr result:resAff];
+        }
+        duration = [NSDate timeIntervalSinceReferenceDate] - start;
+        NSLog(@"Finished projective testing for %d bits with %d iterations. Duration: %f, Average: %f",bits,iterations,duration,duration/iterations);
+        
+    }
+    NSLog(@"Done with performance testing!");
 }
 
 @end

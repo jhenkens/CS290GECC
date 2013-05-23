@@ -36,6 +36,7 @@
 @interface ECC : NSObject{
 }
 + (void) testMain;
++ (void) HW2Driver;
 
 //- ;
 //- phot

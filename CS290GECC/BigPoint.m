@@ -85,6 +85,10 @@
     BN_set_word([p z], 1);
 }
 
+- (BOOL) isEqual:(BigPoint *)other{
+    return (BN_cmp([self x], [other x]) == 0) && (BN_cmp([self y], [other y]) == 0);
+}
+
 - (NSString*) toDecimalString
 {
     if(![self inf])

@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D405579A1749E93500DE9439 /* BigPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D405579B1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
 		D405579C1749E93500DE9439 /* BigPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D40557991749E93500DE9439 /* BigPoint.m */; };
 		D405579D1749E93D00DE9439 /* BigPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; };
-		D45C831A174AF0FB00BA0141 /* BigJacobPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D405FD0D174E9981002CC28D /* CS290GECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
+		D405FD0E174E9981002CC28D /* ECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D471A5841741E1D1005EDA86 /* ECC.h */; };
+		D405FD0F174E9981002CC28D /* PrimeCurve.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D471A58A1741EE15005EDA86 /* PrimeCurve.h */; };
+		D405FD10174E9981002CC28D /* BigPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D40557981749E93500DE9439 /* BigPoint.h */; };
+		D405FD11174E9981002CC28D /* BigJacobPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */; };
 		D45C831B174AF0FB00BA0141 /* BigJacobPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */; };
 		D45C831C174AF0FB00BA0141 /* BigJacobPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D45C8319174AF0FB00BA0141 /* BigJacobPoint.m */; };
 		D45C831D174AF12B00BA0141 /* BigJacobPoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D45C8318174AF0FB00BA0141 /* BigJacobPoint.h */; };
-		D471A5861741E1D1005EDA86 /* ECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D471A5841741E1D1005EDA86 /* ECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D471A5871741E1D1005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
 		D471A5881741E1EA005EDA86 /* ECC.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A5851741E1D1005EDA86 /* ECC.m */; };
 		D471A5891741E1FA005EDA86 /* ECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D471A5841741E1D1005EDA86 /* ECC.h */; };
-		D471A58C1741EE15005EDA86 /* PrimeCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = D471A58A1741EE15005EDA86 /* PrimeCurve.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D471A58D1741EE15005EDA86 /* PrimeCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A58B1741EE15005EDA86 /* PrimeCurve.m */; };
 		D471A5901741FCF3005EDA86 /* PrimeCurve.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D471A58A1741EE15005EDA86 /* PrimeCurve.h */; };
 		D4A0C36F1742A74B00E279E3 /* PrimeCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A58B1741EE15005EDA86 /* PrimeCurve.m */; };
 		D4ACDC00173EDC55002E1EC6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDBFF173EDC55002E1EC6 /* Cocoa.framework */; };
 		D4ACDC0A173EDC55002E1EC6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4ACDC08173EDC55002E1EC6 /* InfoPlist.strings */; };
 		D4ACDC23173EE0A8002E1EC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC22173EE0A8002E1EC6 /* Foundation.framework */; };
-		D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4ACDC4B173EF0BB002E1EC6 /* CS290GECC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D4ACDC0C173EDC55002E1EC6 /* CS290GECC.h */; };
 		D4ACF580173EF58B002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC3D173EE455002E1EC6 /* libcrypto.a */; };
 		D4ACF583173EF599002E1EC6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ACDC19173EDEC8002E1EC6 /* libcrypto.a */; };
@@ -64,6 +64,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D405FD0C174E996F002CC28D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				D405FD0D174E9981002CC28D /* CS290GECC.h in CopyFiles */,
+				D405FD0E174E9981002CC28D /* ECC.h in CopyFiles */,
+				D405FD0F174E9981002CC28D /* PrimeCurve.h in CopyFiles */,
+				D405FD10174E9981002CC28D /* BigPoint.h in CopyFiles */,
+				D405FD11174E9981002CC28D /* BigJacobPoint.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4ACDC1F173EE0A8002E1EC6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -202,21 +216,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		D4ACDBF9173EDC55002E1EC6 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4ACDC4A173EF036002E1EC6 /* CS290GECC.h in Headers */,
-				D471A58C1741EE15005EDA86 /* PrimeCurve.h in Headers */,
-				D405579A1749E93500DE9439 /* BigPoint.h in Headers */,
-				D471A5861741E1D1005EDA86 /* ECC.h in Headers */,
-				D45C831A174AF0FB00BA0141 /* BigJacobPoint.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		D4ACDBFB173EDC55002E1EC6 /* CS290GECC.framework */ = {
 			isa = PBXNativeTarget;
@@ -224,7 +223,7 @@
 			buildPhases = (
 				D4ACDBF7173EDC55002E1EC6 /* Sources */,
 				D4ACDBF8173EDC55002E1EC6 /* Frameworks */,
-				D4ACDBF9173EDC55002E1EC6 /* Headers */,
+				D405FD0C174E996F002CC28D /* CopyFiles */,
 				D4ACDBFA173EDC55002E1EC6 /* Resources */,
 			);
 			buildRules = (

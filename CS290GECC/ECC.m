@@ -151,6 +151,10 @@
 
 + (void) HW2Driver
 {
+    
+#ifdef DEBUG
+    NSLog(@"Running in debug CS290GECC");
+#endif
     PrimeCurve* curve = [self getD121Curve];
     
     BIGNUM* rand192 = BN_new();

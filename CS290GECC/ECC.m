@@ -146,7 +146,7 @@
 //    
 //    NSLog(@"%s\n",BN_bn2dec(res));
 //    NSLog(@"%s\n",BN_bn2dec(temp2));
-    [self testMain];
+    [self testMain2];
 }
 
 + (void) HW2Driver

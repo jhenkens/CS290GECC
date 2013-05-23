@@ -211,6 +211,10 @@
                 exit(1);
         }
         
+        if(TARGET_OS_IPHONE || TARGET_OS_EMBEDDED){
+            iterations/=10;
+        }
+        
         start = [NSDate timeIntervalSinceReferenceDate];
         for(int i = 0; i < iterations;i++){
             [curve multGByD:curr result:resAff];

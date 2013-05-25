@@ -35,8 +35,7 @@
 
 @interface ECC : NSObject{
 }
-+ (void) testMain;
-+ (void) HW2Driver;
++ (PrimeCurve*) getD121Curve;
 
 //- ;
 //- phot

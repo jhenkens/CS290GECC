@@ -12,6 +12,39 @@
 
 @implementation ECC
 
+@synthesize privateKey = __privateKey;
+@synthesize publicKey = __publicKey;
+@synthesize curve = __curve;
+@synthesize sharedSecret = __sharedSecret;
+
+- (id) init
+{
+    self = [self initWithCurve:[ECC getD121Curve]];
+    return self;
+}
+
+- (id) initWithCurve:(PrimeCurve *)curve_
+{
+    if ( self = [super init])
+    {
+        [self setCurve:curve_];
+        [self setPrivateKey:BN_new()];
+        do{
+            BN_rand([self privateKey], BN_num_bits([[self curve] n]), -1, 0);
+        }
+        while (BN_cmp([self privateKey], [[self curve] n]) >=0);
+        [self setPublicKey:[[BigPoint alloc] init]];
+        [[self curve] multiplyPointProjectively:[[self curve] g] byNumber:[self privateKey] result:[self publicKey]];
+        
+        [self setSharedSecret:[[BigPoint alloc] init]];
+    }
+    return self;
+}
+
+- (void) makeSharedSecretFromPublicPoint:(BigPoint *)point
+{
+    [[self curve] multiplyPointProjectively:point byNumber:[self privateKey] result:[self sharedSecret]];
+}
 
 /*
  

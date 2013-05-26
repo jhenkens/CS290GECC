@@ -28,11 +28,13 @@
                         y:(NSString*) y_;
 - (id) initFromBigNumX:(BIGNUM*) x_
                      y:(BIGNUM*) y_;
+- (id) initFromBigNumMpiData:(NSData*) data_;
 - (void) copyPoint:(BigPoint*) p;
 
 - (void) toJacobianPont:(BigJacobPoint*) p;
 - (NSString*) toDecimalString;
 - (NSString*) toHexString;
 - (BOOL) isEqual:(BigPoint*) other;
-
+- (void) setToMpiNSData:(NSData*) data_;
+- (NSData*) getMpiNSData;
 @end

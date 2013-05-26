@@ -70,6 +70,8 @@
 {
     if ( self = [super init])
     {
+        BN_free([self x]);
+        BN_free([self y]);
         [self setX:x_];
         [self setY:y_];
         [self setInf:NO];
@@ -77,6 +79,48 @@
     }
     return self;
 }
+
+- (id) initFromBigNumMpiData:(NSData*) data_
+{
+    if ( self = [super init])
+    {
+        [self setToMpiNSData:data_];
+        [self setInf:NO];
+        __fromCtx = YES;
+    }
+    return self;
+}
+
+- (void) setToMpiNSData:(NSData*) data_
+{
+    unsigned char data[[data_ length]];
+    [data_ getBytes:data length:[data_ length]];
+    
+    unsigned char xlen = data[0];
+    unsigned char ylen = [data_ length]-xlen-1;
+    
+    unsigned char* temp = data+1;
+    BN_mpi2bn(temp, xlen, [self x]);
+    temp = data+1+xlen;
+    BN_mpi2bn(temp, ylen, [self y]);
+}
+
+- (NSData*) getMpiNSData
+{
+    int lenx = BN_bn2mpi([self x], NULL);
+    int leny = BN_bn2mpi([self y], NULL);
+    
+    unsigned char data[lenx+leny+1];
+    unsigned char* temp = data+1;
+    data[0]=(unsigned char)lenx;
+    BN_bn2mpi([self x], temp);
+    temp=data+lenx+1;
+    BN_bn2mpi([self y], temp);
+    NSData* result = [[NSData alloc] initWithBytes:data length:(lenx+leny+1)];
+    NSLog(@"Made data, length: %d, data: %@",[result length], result);
+    return result;
+}
+
 
 - (void) toJacobianPont:(BigJacobPoint *)p
 {

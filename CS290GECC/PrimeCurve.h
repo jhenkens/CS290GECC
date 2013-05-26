@@ -53,9 +53,11 @@
 - (void) addJacobPoints: (BigJacobPoint*) p1
             point2: (BigJacobPoint*) p2
             result: (BigJacobPoint*) r;
-- (void) multGByD:(BIGNUM*) d
-           result:(BigPoint*) r;
-- (void) multGByJacobianD:(BIGNUM*) d
-                   result:(BigPoint*) r;
+- (void) multiplyPoint: (BigPoint*) point
+              byNumber: (BIGNUM*) d
+                result: (BigPoint*) r;
+- (void) multiplyPointProjectively: (BigPoint*) point
+                          byNumber: (BIGNUM*) d
+                            result: (BigPoint*) r;
 
 @end

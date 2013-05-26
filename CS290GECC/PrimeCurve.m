@@ -198,14 +198,15 @@
     BN_CTX_end(context);
 }
 
-- (void) multGByD:(BIGNUM*)d
-           result:(BigPoint *)r
+- (void) multiplyPoint: (BigPoint*) point
+              byNumber: (BIGNUM*) d
+                result: (BigPoint*) r;
 {
     BN_CTX* context = BN_CTX_new();
     BN_CTX_start(context);
     
     BigPoint* temp = [[BigPoint alloc] initFromBigNumX:BN_CTX_get(context) y:BN_CTX_get(context)];
-    [temp copyPoint:[self g]];
+    [temp copyPoint:point];
     
     int len = BN_num_bits(d);
     assert(len!=0);
@@ -678,14 +679,15 @@
     BN_CTX_end(context);
 }
 
-- (void) multGByJacobianD:(BIGNUM *)d
-                   result:(BigPoint *)r
+- (void) multiplyPointProjectively: (BigPoint*) point
+                          byNumber: (BIGNUM*) d
+                            result: (BigPoint*) r
 {
     BN_CTX* context = BN_CTX_new();
     BN_CTX_start(context);
     
     BigJacobPoint* temp = [[BigJacobPoint alloc] initFromBigNumX:BN_CTX_get(context) y:BN_CTX_get(context) z:BN_CTX_get(context)];
-    [[self g] toJacobianPont:temp];
+    [point toJacobianPont:temp];
     BigJacobPoint* res = [[BigJacobPoint alloc] initFromBigNumX:BN_CTX_get(context) y:BN_CTX_get(context) z:BN_CTX_get(context)];
     
     int len = BN_num_bits(d);
@@ -737,8 +739,6 @@
     BN_CTX_end(context);
     BN_CTX_free(context);
 }
-
-
 
 - (void) dealloc
 {

@@ -13,51 +13,50 @@
 
 @interface PrimeCurve : NSObject
 {
-    BIGNUM *__p;
-    BIGNUM *__n;
-    BIGNUM *__SEED;
-    BIGNUM *__c;
-    BIGNUM *__b;
-    BIGNUM *__a;
-    BigPoint *__g;
 }
 
-@property (nonatomic, assign) BIGNUM* p;
-@property (nonatomic, assign) BIGNUM* n;
-@property (nonatomic, assign) BIGNUM* SEED;
-@property (nonatomic, assign) BIGNUM* c;
-@property (nonatomic, assign) BIGNUM* b;
-@property (nonatomic, assign) BIGNUM* a;
-@property (nonatomic, retain) BigPoint* g;
+@property (nonatomic, assign) BIGNUM *p;
+@property (nonatomic, assign) BIGNUM *n;
+@property (nonatomic, assign) BIGNUM *SEED;
+@property (nonatomic, assign) BIGNUM *c;
+@property (nonatomic, assign) BIGNUM *b;
+@property (nonatomic, assign) BIGNUM *a;
+@property (nonatomic, strong) BigPoint *g;
 
 
-- (id) initWithDecStringP:(NSString*) p_
-                        n:(NSString*) n_
-                     SEED:(NSString*) SEED_
-                        c:(NSString*) c_
-                        b:(NSString*) b_
-                        a:(NSString*) a_
-                       Gx:(NSString*) Gx_
-                       Gy:(NSString*) Gy_;
-- (id) initWithHexStringP:(NSString*) p_
-                        n:(NSString*) n_
-                     SEED:(NSString*) SEED_
-                        c:(NSString*) c_
-                        b:(NSString*) b_
-                        a:(NSString*) a_
-                       Gx:(NSString*) Gx_
-                       Gy:(NSString*) Gy_;
-- (void) addPoints: (BigPoint*) p1
-            point2: (BigPoint*) p2
-            result: (BigPoint*) r;
-- (void) addJacobPoints: (BigJacobPoint*) p1
-            point2: (BigJacobPoint*) p2
-            result: (BigJacobPoint*) r;
-- (void) multiplyPoint: (BigPoint*) point
-              byNumber: (BIGNUM*) d
-                result: (BigPoint*) r;
-- (void) multiplyPointProjectively: (BigPoint*) point
-                          byNumber: (BIGNUM*) d
-                            result: (BigPoint*) r;
+- (id) initWithDecStringP:(NSString *)p
+                        n:(NSString *)n
+                     SEED:(NSString *)seed
+                        c:(NSString *)c
+                        b:(NSString *)b
+                        a:(NSString *)a
+                       Gx:(NSString *)gx
+                       Gy:(NSString *)gy;
+
+- (id) initWithHexStringP:(NSString *)p
+                        n:(NSString *)n
+                     SEED:(NSString *)seed
+                        c:(NSString *)c
+                        b:(NSString *)b
+                        a:(NSString *)a
+                       Gx:(NSString *)gx
+                       Gy:(NSString *)gy;
+
+- (void) addPoint:(BigPoint *)point
+          toPoint:(BigPoint *)other
+             into:(BigPoint *)result;
+
+- (void) addJacobPoint:(BigJacobPoint *)point
+               toPoint:(BigJacobPoint *)other
+                  into:(BigJacobPoint *)result;
+
+- (void) addJacobPoint:(BigJacobPoint *)point
+               toPoint:(BigJacobPoint *)other
+                  into:(BigJacobPoint *)result
+           withContext:(BN_CTX *)context;
+
+- (void) multiplyPoint:(BigPoint *)point
+              byNumber:(BIGNUM *)num
+                  into:(BigPoint *)result;
 
 @end

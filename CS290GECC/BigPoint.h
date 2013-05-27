@@ -13,28 +13,30 @@
 
 @interface BigPoint : NSObject
 {
-    BIGNUM *__x;
-    BIGNUM *__y;
-    BOOL __inf;
-    BOOL __fromCtx;
 }
-@property (nonatomic, assign) BIGNUM* x;
-@property (nonatomic, assign) BIGNUM* y;
+@property (nonatomic, assign) BIGNUM *x;
+@property (nonatomic, assign) BIGNUM *y;
 @property (nonatomic, assign) BOOL inf;
+@property (nonatomic, assign) BOOL fromContext;
 
-- (id) initWithDecStringX:(NSString*) x_
-                        y:(NSString*) y_;
-- (id) initWithHexStringX:(NSString*) x_
-                        y:(NSString*) y_;
-- (id) initFromBigNumX:(BIGNUM*) x_
-                     y:(BIGNUM*) y_;
-- (id) initFromBigNumMpiData:(NSData*) data_;
-- (void) copyPoint:(BigPoint*) p;
+- (id) initWithDecStringX:(NSString *)x
+                        y:(NSString *)y;
 
-- (void) toJacobianPont:(BigJacobPoint*) p;
-- (NSString*) toDecimalString;
-- (NSString*) toHexString;
-- (BOOL) isEqual:(BigPoint*) other;
-- (void) setToMpiNSData:(NSData*) data_;
-- (NSData*) getMpiNSData;
+- (id) initWithHexStringX:(NSString *)x
+                        y:(NSString *)y;
+
+- (id) initFromContext:(BN_CTX *)context;
+
+- (id) initFromBigNumMpiData:(NSData *)data;
+
+- (void) copyFromPoint:(BigPoint *)point;
+
+- (void) convertToJacobianPoint:(BigJacobPoint *)point;
+
+- (NSString *) asDecimalString;
+- (NSString *) asHexString;
+
+- (BOOL) isEqualToPoint:(BigPoint *)other;
+- (void) copyFromMpiNSData:(NSData *)data;
+- (NSData *) getMpiNSData;
 @end

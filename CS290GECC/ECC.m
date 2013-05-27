@@ -12,39 +12,40 @@
 
 @implementation ECC
 
-@synthesize privateKey = __privateKey;
-@synthesize publicKey = __publicKey;
-@synthesize curve = __curve;
-@synthesize sharedSecret = __sharedSecret;
-
 - (id) init
 {
-    self = [self initWithCurve:[ECC getD121Curve]];
-    return self;
+    return [self initWithCurve:[ECC getD121Curve]];
 }
 
-- (id) initWithCurve:(PrimeCurve *)curve_
+- (id) initWithCurve:(PrimeCurve *)curve
 {
-    if ( self = [super init])
-    {
-        [self setCurve:curve_];
-        [self setPrivateKey:BN_new()];
-        do{
-            BN_rand([self privateKey], BN_num_bits([[self curve] n]), -1, 0);
-        }
-        while (BN_cmp([self privateKey], [[self curve] n]) >=0);
-        [self setPublicKey:[[BigPoint alloc] init]];
-        [[self curve] multiplyPointProjectively:[[self curve] g] byNumber:[self privateKey] result:[self publicKey]];
+    if ((self = [super init])){
+        self.curve = curve;
+        self.privateKey = BN_new();
+        self.publicKey = [BigPoint new];
+        self.sharedSecret = [BigPoint new];
         
-        [self setSharedSecret:[[BigPoint alloc] init]];
+        do{
+            BN_rand(self.privateKey, BN_num_bits(self.curve.n), -1, 0);
+        }
+        while (BN_cmp(self.privateKey, self.curve.n) >=0);
+        NSLog(@"private key value: %s", BN_bn2dec(self.privateKey));
+        [self.curve multiplyPoint:self.curve.g byNumber:self.privateKey into:self.publicKey];
+        NSLog(@"public key: %@",self.publicKey);
     }
     return self;
 }
 
 - (void) makeSharedSecretFromPublicPoint:(BigPoint *)point
 {
-    [[self curve] multiplyPointProjectively:point byNumber:[self privateKey] result:[self sharedSecret]];
+    [self.curve multiplyPoint:point byNumber:self.privateKey into:self.sharedSecret];
 }
+
+- (void) dealloc
+{
+    BN_free(_privateKey);
+}
+
 
 /*
  
@@ -58,7 +59,7 @@
  b - The coefficient (satisfying b^2c = -27(modp))
  Gx, Gy - the base point
  */
-+ (PrimeCurve*) getD121Curve
++ (PrimeCurve *) getD121Curve
 {
     PrimeCurve* result = [[PrimeCurve alloc]
         initWithHexStringP:@"fffffffffffffffffffffffffffffffeffffffffffffffff"

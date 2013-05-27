@@ -12,34 +12,34 @@
 @class BigPoint;
 @interface BigJacobPoint : NSObject
 {
-    BIGNUM *__x;
-    BIGNUM *__y;
-    BIGNUM *__z;
-    BOOL __inf;
-    BOOL __fromCtx;
 }
-@property (nonatomic, assign) BIGNUM* x;
-@property (nonatomic, assign) BIGNUM* y;
-@property (nonatomic, assign) BIGNUM* z;
+@property (nonatomic, assign) BIGNUM *x;
+@property (nonatomic, assign) BIGNUM *y;
+@property (nonatomic, assign) BIGNUM *z;
 @property (nonatomic, assign) BOOL inf;
+@property (nonatomic, assign) BOOL fromContext;
 
-- (id) initWithDecStringX:(NSString*) x_
-                        y:(NSString*) y_
-                        z:(NSString*) z_;
-- (id) initWithHexStringX:(NSString*) x_
-                        y:(NSString*) y_
-                        z:(NSString*) z_;
-- (id) initFromBigNumX:(BIGNUM*) x_
-                     y:(BIGNUM*) y_
-                     z:(BIGNUM*) z_;
-- (void) copyJacobPoint:(BigJacobPoint*) p;
+- (id) initWithDecStringX:(NSString *)x
+                        y:(NSString *)y
+                        z:(NSString *)z;
 
-- (void) toPoint:(BigPoint*) p
-          modulo:(BIGNUM*)m;
-- (void) toPoint:(BigPoint*) p
-          modulo:(BIGNUM*)m
-         context:(BN_CTX*) context;
-- (void) printAffine:(BIGNUM*) p;
-- (NSString*) toDecimalString;
-- (NSString*) toHexString;
+- (id) initWithHexStringX:(NSString *)x
+                        y:(NSString *)y
+                        z:(NSString *)z;
+
+- (id) initFromContext:(BN_CTX *)context;
+
+- (void) copyFromJacobPoint:(BigJacobPoint *)point;
+
+- (void) convertToPoint:(BigPoint *)point
+            usingModulo:(BIGNUM *)mod;
+
+- (void) convertToPoint:(BigPoint *)point
+            usingModulo:(BIGNUM *)mod
+            withContext:(BN_CTX *)context;
+
+- (void) printAsAffinePointUsingModulo:(BIGNUM *)mod;
+
+- (NSString *) asDecimalString;
+- (NSString *) asHexString;
 @end

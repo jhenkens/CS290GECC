@@ -11,175 +11,146 @@
 
 @implementation BigJacobPoint
 
-@synthesize x = __x;
-@synthesize y = __y;
-@synthesize z = __z;
-@synthesize inf = __inf;
-
 - (id) init
 {
-    if ( self = [super init])
-    {
-        [self setX:BN_new()];
-        [self setY:BN_new()];
-        [self setZ:BN_new()];
-        [self setInf:NO];
-        __fromCtx = NO;
+    if ((self = [super init])){
+        self.x = BN_new();
+        self.y = BN_new();
+        self.z = BN_new();
+        self.inf = NO;
+        self.fromContext = NO;
     }
     return self;
 }
 
-- (id) initWithDecStringX:(NSString*) x_
-                        y:(NSString*) y_
-                        z:(NSString*) z_
+- (id) initWithDecStringX:(NSString *)x
+                        y:(NSString *)y
+                        z:(NSString *)z
 {
-    if(self = [self init])
-    {
-        
+    if ((self = [self init])){
         BIGNUM *temp = BN_new();
         
-        BN_dec2bn(&temp,[x_ UTF8String]);
-        BN_copy([self x],temp);
+        BN_dec2bn(&temp,[x UTF8String]);
+        BN_copy(self.x,temp);
         
-        BN_dec2bn(&temp,[y_ UTF8String]);
-        BN_copy([self y],temp);
+        BN_dec2bn(&temp,[y UTF8String]);
+        BN_copy(self.y,temp);
         
-        BN_dec2bn(&temp,[z_ UTF8String]);
-        BN_copy([self z],temp);
+        BN_dec2bn(&temp,[z UTF8String]);
+        BN_copy(self.z,temp);
         
         BN_free(temp);
     }
     return self;
 }
 
-- (id) initWithHexStringX:(NSString*) x_
-                        y:(NSString*) y_
-                        z:(NSString*) z_
+- (id) initWithHexStringX:(NSString *)x
+                        y:(NSString *)y
+                        z:(NSString *)z
 {
-    if(self = [self init])
-    {
-        
+    if ((self = [self init])){
         BIGNUM *temp = BN_new();
         
-        BN_hex2bn(&temp,[x_ UTF8String]);
-        BN_copy([self x],temp);
+        BN_hex2bn(&temp,[x UTF8String]);
+        BN_copy(self.x,temp);
         
-        BN_hex2bn(&temp,[y_ UTF8String]);
-        BN_copy([self y],temp);
+        BN_hex2bn(&temp,[y UTF8String]);
+        BN_copy(self.y,temp);
         
-        BN_hex2bn(&temp,[z_ UTF8String]);
-        BN_copy([self z],temp);
+        BN_hex2bn(&temp,[z UTF8String]);
+        BN_copy(self.z,temp);
         
         BN_free(temp);
     }
     return self;
 }
 
-- (id) initFromBigNumX:(BIGNUM *)x_
-                     y:(BIGNUM *)y_
-                     z:(BIGNUM *)z_
+- (id) initFromContext:(BN_CTX *)context
 {
-    if ( self = [super init])
-    {
-        [self setX:x_];
-        [self setY:y_];
-        [self setZ:z_];
-        [self setInf:NO];
-        __fromCtx = YES;
+    if ((self = [super init])){
+        self.x = BN_CTX_get(context);
+        self.y = BN_CTX_get(context);
+        self.z = BN_CTX_get(context);
+        self.inf = NO;
+        self.fromContext = YES;
     }
     return self;
 }
 
-- (void) toPoint:(BigPoint *)p
-          modulo:(BIGNUM*)m
+- (void) convertToPoint:(BigPoint *)point
+            usingModulo:(BIGNUM *)mod
 {
-    BN_CTX* context = BN_CTX_new();
-    [self toPoint:p modulo:m context:context];
+    BN_CTX *context = BN_CTX_new();
+    [self convertToPoint:point usingModulo:mod withContext:context];
     BN_CTX_free(context);
 }
 
-- (void) toPoint:(BigPoint *)p
-          modulo:(BIGNUM *)m
-         context:(BN_CTX *)context
+- (void) convertToPoint:(BigPoint *)point
+            usingModulo:(BIGNUM *)mod
+            withContext:(BN_CTX *)context
 {
     BN_CTX_start(context);
-    BIGNUM* inv = BN_CTX_get(context);
-    BIGNUM* inv2 = BN_CTX_get(context);
-    BIGNUM* inv3 = BN_CTX_get(context);
+    BIGNUM *inv = BN_CTX_get(context);
+    BIGNUM *inv2 = BN_CTX_get(context);
+    BIGNUM *inv3 = BN_CTX_get(context);
     
-    BN_mod_inverse(inv, [self z], m, context);
+    BN_mod_inverse(inv, self.z, mod, context);
     
-    BN_mod_sqr(inv2, inv, m, context);
-    BN_mod_mul([p x], inv2, [self x], m, context);
+    BN_mod_sqr(inv2, inv, mod, context);
+    BN_mod_mul(point.x, inv2, self.x, mod, context);
     
-    BN_mod_mul(inv3, inv2, inv, m, context);
-    BN_mod_mul([p y], inv3, [self y], m, context);
+    BN_mod_mul(inv3, inv2, inv, mod, context);
+    BN_mod_mul(point.y, inv3, self.y, mod, context);
     
     BN_CTX_end(context);
 }
 
-- (void) printAffine:(BIGNUM*) p
+- (void) printAsAffinePointUsingModulo:(BIGNUM *)mod
 {
-    BigPoint* temp = [[BigPoint alloc] init];
-    [self toPoint:temp modulo:p];
+    BigPoint *temp = [BigPoint new];
+    [self convertToPoint:temp usingModulo:mod];
     NSLog(@"%@",temp);
 }
 
-- (NSString*) toDecimalString
+- (NSString *) asDecimalString
 {
-    if(![self inf])
-    {
-        return [NSString stringWithFormat:@"(%s/Z^2,%s/Z^3,%s)",BN_bn2dec([self x]),BN_bn2dec([self y]),BN_bn2dec([self z])];
+    if (!self.inf){
+        return [NSString stringWithFormat:@"(%s/Z^2,%s/Z^3,%s)",BN_bn2dec(self.x),BN_bn2dec(self.y),BN_bn2dec(self.z)];
     }
-    else
-    {
-        return @"(inf,inf)";
+    else {
+        return @"(inf,inf,1)";
     }
 }
 
-- (NSString*) toHexString
+- (NSString *) asHexString;
 {
-    if(![self inf])
-    {
-        return [NSString stringWithFormat:@"(%s/Z^2,%s/Z^3,%s)",BN_bn2hex([self x]),BN_bn2hex([self y]),BN_bn2hex([self z])];
+    if (!self.inf){
+        return [NSString stringWithFormat:@"(%s/Z^2,%s/Z^3,%s)",BN_bn2hex(self.x),BN_bn2hex(self.y),BN_bn2hex(self.z)];
     }
-    else
-    {
-        return @"(inf,inf)";
+    else {
+        return @"(inf,inf,1)";
     }
 }
 
 - (NSString*) description
 {
-    return [self toDecimalString];
+    return [self asDecimalString];
 }
 
-- (void) copyJacobPoint:(BigJacobPoint*) p
+- (void) copyFromJacobPoint:(BigJacobPoint *)point
 {
-    BN_copy([self x],[p x]);
-    BN_copy([self y],[p y]);
-    BN_copy([self z],[p z]);
-    [self setInf:[p inf]];
+    BN_copy(self.x,point.x);
+    BN_copy(self.y,point.y);
+    BN_copy(self.z,point.z);
+    self.inf = point.inf;
 }
 
 - (void) dealloc
 {
-    if(!__fromCtx){
-        BN_free([self x]);
-        BN_free([self y]);
-        BN_free([self z]);
+    if (!_fromContext){
+        BN_free(_x);
+        BN_free(_y);
+        BN_free(_z);
     }
 }
-
-- (void) finalize
-{
-    if(!__fromCtx)
-    {
-        BN_free([self x]);
-        BN_free([self y]);
-        BN_free([self z]);
-    }
-    [super finalize];
-}
-
 @end

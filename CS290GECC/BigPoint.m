@@ -141,6 +141,11 @@
     }
 }
 
+- (NSString *) getXCoordinateHexString
+{
+    return [NSString stringWithUTF8String:BN_bn2hex(self.x)];
+}
+
 - (NSString*) description
 {
     return [self asDecimalString];

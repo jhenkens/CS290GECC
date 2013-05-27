@@ -35,6 +35,7 @@
 
 - (NSString *) asDecimalString;
 - (NSString *) asHexString;
+- (NSString *) getXCoordinateHexString;
 
 - (BOOL) isEqualToPoint:(BigPoint *)other;
 - (void) copyFromMpiNSData:(NSData *)data;

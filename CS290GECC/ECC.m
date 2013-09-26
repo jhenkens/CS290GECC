@@ -9,12 +9,19 @@
 #import "ECC.h"
 #import "BigPoint.h"
 #import "BigJacobPoint.h"
+#import <openssl/rand.h>
 
 @implementation ECC
 
 - (id) init
 {
     return [self initWithCurve:[ECC getD121Curve]];
+}
+
+- (id) initWithRandomSeed:(uint8_t *) seed
+               withLength:(int) length
+{
+    return [self initWithCurve:[ECC getD121Curve] andRandomSeed:seed withLength:length];
 }
 
 - (id) initWithCurve:(PrimeCurve *)curve
@@ -24,6 +31,29 @@
         self.privateKey = BN_new();
         self.publicKey = [BigPoint new];
         self.sharedSecret = [BigPoint new];
+        
+        do{
+            BN_rand(self.privateKey, BN_num_bits(self.curve.n), -1, 0);
+        }
+        while (BN_cmp(self.privateKey, self.curve.n) >=0);
+        NSLog(@"private key value: %s", BN_bn2dec(self.privateKey));
+        [self.curve multiplyPoint:self.curve.g byNumber:self.privateKey into:self.publicKey];
+        NSLog(@"public key: %@",self.publicKey);
+    }
+    return self;
+}
+
+- (id) initWithCurve:(PrimeCurve *)curve
+       andRandomSeed:(uint8_t *) seed
+          withLength:(int) length
+{
+    if ((self = [super init])){
+        self.curve = curve;
+        self.privateKey = BN_new();
+        self.publicKey = [BigPoint new];
+        self.sharedSecret = [BigPoint new];
+        
+        RAND_seed(seed, length);
         
         do{
             BN_rand(self.privateKey, BN_num_bits(self.curve.n), -1, 0);

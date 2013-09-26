@@ -20,7 +20,12 @@
 @property (nonatomic, strong) BigPoint* sharedSecret;
 
 + (PrimeCurve *) getD121Curve;
+- (id) initWithRandomSeed:(uint8_t *) seed
+               withLength:(int) length;
 - (id) initWithCurve:(PrimeCurve *)curve;
+- (id) initWithCurve:(PrimeCurve *)curve
+       andRandomSeed:(uint8_t *) seed
+          withLength:(int) length;
 - (void) makeSharedSecretFromPublicPoint:(BigPoint *)point;
 
 //- ;
